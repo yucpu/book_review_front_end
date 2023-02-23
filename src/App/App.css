@@ -1,0 +1,19 @@
+
+#App{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: aliceblue;
+    background-image: url('../resources/background.jpg');
+    background-size:cover;
+  }
+
+#backgroundImageAttribution{
+  position: absolute;
+  width: 20%;
+  left: 2%;
+  bottom: 5%;
+  color: white;
+  text-decoration: underline;
+}
+
