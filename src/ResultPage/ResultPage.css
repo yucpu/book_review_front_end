@@ -14,7 +14,7 @@
 
 #search_area{
     width: 50%;
-    height: max-content;
+    height: 10%;
     
     /* background-color: red; */
     
@@ -25,7 +25,8 @@
 
 #result_area{
     width: 100%;
-    flex-grow:1;
+    height: 90%;
+    /* flex-grow:1; */
     flex-direction: row;
     display: flex;
     
@@ -33,17 +34,25 @@
 
 
 #result_list{
-    flex-grow: 3;
+    /* flex-grow: 3; */
+    width: 80%;
     background-color: white;
     margin-right: 20px;
     box-shadow: 0 5px 12px 4px rgba(0, 0, 0, 0.09);
     border-radius: 2mm;
+    
+    /* overflow-y:scroll; */
+    overflow-y: scroll;
+
 }
+::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
 
 #overview{
-    flex-grow: 1;
+    /* flex-grow: 1; */
+    width: 20%;
     background-color: white;
     border-radius: 2mm;
-    
     
 }
