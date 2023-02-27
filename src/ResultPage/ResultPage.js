@@ -4,12 +4,12 @@ import { Button, Input } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import '../ResultPage/ResultPage.css';
 import SearchBar from '../SearchBar/SearchBar';
+import { useData } from '../data';
 
 
 
 function ResultPage() {
-
-
+  const context = useData();
   const navigate = useNavigate();
   const [show, setShow] = useState(true);
   const cLocation = useLocation();
@@ -45,14 +45,12 @@ function ResultPage() {
                 onClick={e=>e.stopPropagation()}
                 >
                 <div id="search_area">
-                  
                   <SearchBar show={show} setShow={setShow} identity="ResultPage"/>
                 </div>
                 <div id="result_area">
                   <div id='result_list'>
-                    This is result_list
+                    {context.result}
                   
-          
                   </div>
 
                   <div id='overview'>

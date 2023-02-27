@@ -1,12 +1,12 @@
 import React, {useState,useEffect,useContext}from 'react'
 import { Space, Select, AutoComplete, Button, } from 'antd'
 import {SearchOutlined} from '@ant-design/icons';
-import { useData } from '../data';
+import { serverHost, useData, getData} from '../data';
 
 const{Option} = Select
 
 function SearchBar(props) {
-    const {method,query,options,setQuery,setOptions,selectMethod,} = useData();
+    const {method,query,options,setQuery,setOptions,selectMethod,result,setResult} = useData();
     const {show,setShow,identity} = props
 
     useEffect(()=>{
@@ -31,10 +31,14 @@ function SearchBar(props) {
         //setOptions([{value:"enter"}])
         console.log(identity)
         console.log(`Query type ${method} : ${query}`);
+        let url = serverHost+`search/?uid=${"X2f41iq0ql1g1h"}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${20}/`
         if(identity == "HomePage") {
-            setShow(!show);
+          getData(url,{}).then((books)=> setResult((books.result_list[10]))).catch(err=>{console.log(err)}).then(setShow(!show)).then(console.log(result));
+         
+        }else{
+          getData(url,{}).then((books)=> console.log(books.result_list[10])).catch(err=>{console.log(err)}).then(console.log(result));
         }
-    
+
       }
 
     const queryExpansion = (value)=>{

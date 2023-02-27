@@ -23,7 +23,7 @@ function App() {
         </a>
         <Routes>
           <Route path="/*" element={<HomePage props/>} />
-          <Route path="/result/*" element={<ResultPage props/>}/>
+          <Route path="/search/*" element={<ResultPage props/>}/>
         </Routes>
         
       </div>
