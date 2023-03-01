@@ -1,0 +1,19 @@
+#CardList{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+#CardList > .ant-spin-nested-loading{
+    flex-grow: 13;
+}
+
+#CardList > .ant-list-pagination{
+    flex-grow: 1;
+}
+
+
+.pageLocation{
+    padding-bottom: 10%;
+}
