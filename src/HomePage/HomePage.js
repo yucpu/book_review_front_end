@@ -19,6 +19,7 @@ export default function HomePage(props) {
     if (object.type == 'leave'){
       // navigate(`/result/${context.method}/{query_id}/{session_id}/`);
       navigate(`/search/?uid=${"X2f41iq0ql1g1h"}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${20}/`)
+      
     }
   }
 

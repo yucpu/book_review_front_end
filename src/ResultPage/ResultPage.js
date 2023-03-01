@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import { Link, useNavigate,useLocation} from 'react-router-dom';
-import { Button, Input } from 'antd';
+import { Button, Input} from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import '../ResultPage/ResultPage.css';
 import SearchBar from '../SearchBar/SearchBar';
 import { useData } from '../data';
+import CardList from '../CardList/CardList';
 
 
 
@@ -13,7 +14,8 @@ function ResultPage() {
   const navigate = useNavigate();
   const [show, setShow] = useState(true);
   const cLocation = useLocation();
-
+  let books = context.result;
+  let totalNum = context.result.result_num
 
   const handleBack = (event)=>{
     event.stopPropagation();
@@ -49,8 +51,8 @@ function ResultPage() {
                 </div>
                 <div id="result_area">
                   <div id='result_list'>
-                    {context.result}
-                  
+                    {/* {console.log(Object.getOwnPropertyNames(books))} */}
+                    <CardList/>
                   </div>
 
                   <div id='overview'>

@@ -13,6 +13,15 @@ function SearchBar(props) {
         // console.log(method)
     },[])
 
+    function toArray(lists){
+      let keys = Object.getOwnPropertyNames(lists)
+      let res = []
+      for (let index=0; index < keys.length; index++){
+        res.push(lists[keys[index]])
+      }
+      return res;
+    }
+
     const handleKey = (e)=>{
         if(e.code == "Enter"){
           console.log("search By Enter")
@@ -25,18 +34,27 @@ function SearchBar(props) {
         setOptions(value ? queryExpansion(value):[]); // asyn   
     }
 
+
     const handleSearchByButton = (value, event)=>{
         // AJAX
         // classifiy type of command (Enter Clear Click)
         //setOptions([{value:"enter"}])
         console.log(identity)
         console.log(`Query type ${method} : ${query}`);
-        let url = serverHost+`search/?uid=${"X2f41iq0ql1g1h"}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${20}/`
+        let url = serverHost+`search?uid=${12345}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${20}`
+        console.log(url)
         if(identity == "HomePage") {
-          getData(url,{}).then((books)=> setResult((books.result_list[10]))).catch(err=>{console.log(err)}).then(setShow(!show)).then(console.log(result));
+
+          let a = {1:{"book":"wode"}, 2:{"book":"nide"},3:{"book":"nide"},4:{"book":"nide"},5:{"book":"nide"},7:{"book":"nide"}}
          
+
+          getData(url,{}).then((books)=> setResult(toArray(books.result_list))).catch(err=>{console.log(err)}).then(setShow(!show)).then(console.log(result));
+          setShow(!show)
+          console.log("from home")
         }else{
-          getData(url,{}).then((books)=> console.log(books.result_list[10])).catch(err=>{console.log(err)}).then(console.log(result));
+          console.log("from result")
+          getData(url,{}).then((books)=> setResult(toArray(books.result_list))).catch(err=>{console.log(err)}).then(setShow(!show)).then(console.log(result));
+          // setShow(!show)
         }
 
       }
@@ -60,9 +78,9 @@ function SearchBar(props) {
         <div id='SearchBar' >
             <Space.Compact style={{width:"100%"}}>
                 <Select defaultValue={method} style={{width:'30%'}} onSelect={selectMethod}>
-                    <Option value="0">Boolean Seach</Option>
-                    <Option value="1">Proximity Seach</Option>
-                    <Option value="2">Free Search</Option>
+                    <Option value="boolean">Boolean Seach</Option>
+                    <Option value="proximity">Proximity Seach</Option>
+                    <Option value="phrase">Free Search</Option>
                 </Select>
                 <AutoComplete 
                     style={{width:'60%'}}
