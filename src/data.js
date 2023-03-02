@@ -9,7 +9,7 @@ export const DataProvider = ({children}) => {
     const [method,setMethod] = useState("phrase");
     const [options, setOptions] = useState([]);
     const [query, setQuery] = useState("");
-    const [result,setResult] = useState([{1:"dd"}]);
+    const [result,setResult] = useState([]);
     const login = (user) => {
         setUser(user)
     }

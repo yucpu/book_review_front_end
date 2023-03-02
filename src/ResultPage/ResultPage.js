@@ -6,6 +6,7 @@ import '../ResultPage/ResultPage.css';
 import SearchBar from '../SearchBar/SearchBar';
 import { useData } from '../data';
 import CardList from '../CardList/CardList';
+import BookDetail from '../BookDetail/BookDetail';
 
 
 
@@ -56,7 +57,7 @@ function ResultPage() {
                   </div>
 
                   <div id='overview'>
-                    overview
+                    <BookDetail/>
                   </div>
                 </div>
               </div>

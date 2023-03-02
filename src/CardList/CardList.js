@@ -20,7 +20,6 @@ function CardList() {
             size='large'
             dataSource={context.result}
             renderItem = {custome}
-
         />
   )
 }
