@@ -6,7 +6,7 @@ import { serverHost, useData, getData} from '../data';
 const{Option} = Select
 
 function SearchBar(props) {
-    const {method,query,options,setQuery,setOptions,selectMethod,result,setResult} = useData();
+    const {method,query,options,setQuery,setOptions,selectMethod,result,setResult,setBook} = useData();
     const {show,setShow,identity} = props
 
     useEffect(()=>{
@@ -18,6 +18,12 @@ function SearchBar(props) {
       let res = []
       for (let index=0; index < keys.length; index++){
         res.push(lists[keys[index]])
+      }
+
+      if(res.length > 0){
+        setBook(res[0])
+      }else{
+        setBook({})
       }
       return res;
     }
@@ -45,16 +51,76 @@ function SearchBar(props) {
         console.log(url)
         if(identity == "HomePage") {
 
-          let a = {1:{"book":"wode"}, 2:{"book":"nide"},3:{"book":"nide"},4:{"book":"nide"},5:{"book":"nide"},7:{"book":"nide"}}
-         
-
-          getData(url,{}).then((books)=> setResult(toArray(books.result_list))).catch(err=>{console.log(err)}).then(setShow(!show)).then(console.log(result));
+          let a = {
+            1: {
+              "language_code": "US",
+              "country_code": "Bangladesh",
+              "ratings_count": 36,
+              "image_url": "http://placehold.it/32x32",
+              "average_rating": 8,
+              "title": "Utah",
+              "url": "https://www.goodreads.com/book/show/7327624-the-unschooled-wizard",
+              "publication_year": 2008,
+              "publication_month": 3,
+              "publication_day": 5,
+              "num_pages": 441,
+              "date": "1970-2-3",
+              "author_list": [
+                "Case Blackwell",
+                "Catalina Hunter"
+              ],
+              "publisher": "FRANSCENE",
+              "description": "252 Seabring Street, Bancroft, Oklahoma, 6213"
+            },
+            2: {
+              "language_code": "US",
+              "country_code": "Chile",
+              "ratings_count": 115,
+              "image_url": "http://placehold.it/32x32",
+              "average_rating": 8,
+              "title": "Wisconsin",
+              "url": "https://www.goodreads.com/book/show/7327624-the-unschooled-wizard",
+              "publication_year": 1972,
+              "publication_month": 0,
+              "publication_day": 3,
+              "num_pages": 466,
+              "date": "2001-7-6",
+              "author_list": [
+                "Mitzi Lindsey",
+                "Michael Tyler"
+              ],
+              "publisher": "ANARCO",
+              "description": "553 Schaefer Street, Marbury, West Virginia, 6123"
+            },
+            3: {
+              "language_code": "US",
+              "country_code": "Croatia (Hrvatska)",
+              "ratings_count": 245,
+              "image_url": "https://images.gr-assets.com/books/1304100136m/7327624.jpg",
+              "average_rating": 7,
+              "title": "American Samoa",
+              "url": "https://www.goodreads.com/book/show/7327624-the-unschooled-wizard",
+              "publication_year": 2002,
+              "publication_month": 5,
+              "publication_day": 1,
+              "num_pages": 649,
+              "date": "2010-3-4",
+              "author_list": [
+                "Owens Mason",
+                "Heidi Gardner"
+              ],
+              "publisher": "ORGANICA",
+              "description": "492 Howard Place, Verdi, District Of Columbia, 4332"
+            }
+          }
+          setResult(toArray(a))
+          // getData(url,{}).then((books)=> setResult(toArray(a))).catch(err=>{console.log(err)}).then(setShow(!show)).then(console.log(result));
           setShow(!show)
           console.log("from home")
         }else{
           console.log("from result")
-          getData(url,{}).then((books)=> setResult(toArray(books.result_list))).catch(err=>{console.log(err)}).then(setShow(!show)).then(console.log(result));
-          // setShow(!show)
+          // getData(url,{}).then((books)=> setResult(toArray({}))).catch(err=>{console.log(err)}).then(console.log(result));
+          setResult(toArray({}))
         }
 
       }
