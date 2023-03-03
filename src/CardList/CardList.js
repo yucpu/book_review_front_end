@@ -6,8 +6,15 @@ import { useData } from '../data';
 function CardList() {
     const context = useData()
 
-    const custome = (item) =>{
-       return <List.Item>{item.title} <Button>dd</Button></List.Item>
+    let detailCheck = (item, index) =>{
+        context.setBook(item);
+    }
+
+    let custome = (item, index) =>{
+       return <List.Item onClick={detailCheck.bind(this,item,index)}
+        >
+        {item.title} {item.num_pages} {item.language_code} {item.country_code}
+        </List.Item>
     }
 
     return (

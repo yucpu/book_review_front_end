@@ -1,38 +1,50 @@
+import { Image } from 'antd';
 import React from 'react';
 import '../BookDetail/BookDetail.css';
+import { useData } from '../data';
 
 function BookDetail() {
+    const context = useData();
+    let book = context.book;
   return (
     <div id='BookDetail'>
         <div style={{display:'inline-block',textAlign:'center'}}>
-            <img style={{height:'100%',width:'70%'}} src="https://www.trainingzone.co.uk/sites/default/files/elenaleonova-books.jpg"/>
+        <Image
+            style={{height:'100%'}}
+            src={book.image_url ? book.image_url:'error'}
+            fallback='https://miro.medium.com/max/1400/1*qdFdhbR00beEaIKDI_WDCw.gif'
+        />
         </div>
         
         <div>
             <table className='detailed-info-table' style={{height:'100%', width:'100%'}}>
+                <tbody>
                 <tr className='table-row'>
                     <td className='table-label'>Book Name</td>
-                    <td className='table-content'>No one read</td>
+                    <td className='table-content'>{book.title}</td>
                 </tr>
                 <tr className='table-row'>
                     <td className='table-label'>Author</td>
-                    <td className='table-content'>No one</td>
+                    <td className='table-content'>{book.author_list}</td>
                 </tr>
                 <tr className='table-row'>
                     <td className='table-label'>Publish Date</td>
-                    <td className='table-content'>2019-01-13</td>
+                    <td className='table-content'>{book.publication_year+'-'+book.publication_month+'-'+book.publication_day}</td>
                 </tr>
                 <tr className='table-row'>
                     <td className='table-label'>Publisher</td>
-                    <td className='table-content'>haha</td>
+                    <td className='table-content'>{book.publisher}</td>
                 </tr>
                 <tr className='table-row'   >
                     <td className='table-label'>Descriptions</td>
-                    <td className='table-content'><p style={{height:'100%',width:'100%', overflowY:'scroll',overflowWrap:'anywhere'}}>There are a variety of rules when it comes to using either a definite or an indefinite (did you notice the use of ‘a’ and ‘an’ in this sentence?) Let’s now take asdfsadfsdfasdfasdfasdfsfssssssssa look at the rules surrounding this grammatical element in order that we use it correctly. Rule #1.We mentioned that depending on …
-Indefinite Articles | A and An
-Indefinite Article Definition The words A and Anare called indefinite articles. We can use them with singular nouns to talk about any single person or thing. Deciding which indefinite article to place in front of a word depends upon the initial sound of the word, not the first letter of the word. Whe</p></td>
+                    <td className='table-content'>
+                        <p style={{height:'100%',width:'100%', overflowY:'scroll',overflowWrap:'anywhere'}}>
+                            {book.description}
+                        </p>
+                    </td>
                 </tr>
-            </table>
+                </tbody>
+            </table>    
         </div>
     </div>
   )
