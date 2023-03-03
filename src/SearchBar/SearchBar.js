@@ -42,9 +42,6 @@ function SearchBar(props) {
 
 
     const handleSearchByButton = (value, event)=>{
-        // AJAX
-        // classifiy type of command (Enter Clear Click)
-        //setOptions([{value:"enter"}])
         console.log(identity)
         console.log(`Query type ${method} : ${query}`);
         let url = serverHost+`search?uid=${12345}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${9}`;
@@ -119,7 +116,7 @@ function SearchBar(props) {
           console.log("from home")
         }else{
           console.log("from result")
-          getData(url,{}).then((books)=> setResult(toArray({}))).catch(err=>{console.log(err)}).then(console.log(result));
+          getData(url,{}).then((books)=> setResult(toArray(books.result_list))).catch(err=>{console.log(err)}).then(console.log(result));
         }
 
       }
