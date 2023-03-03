@@ -29,7 +29,9 @@ function BookDetail() {
                 </tr>
                 <tr className='table-row'>
                     <td className='table-label'>Publish Date</td>
-                    <td className='table-content'>{book.publication_year+'-'+book.publication_month+'-'+book.publication_day}</td>
+                    <td className='table-content'>{(book.publication_year ? book.publication_year:"No Record")+'/'
+                    +(book.publication_month ? book.publication_month:"No Record")+'/'
+                    +(book.publication_day ? book.publication_day:"No Record")}</td>
                 </tr>
                 <tr className='table-row'>
                     <td className='table-label'>Publisher</td>

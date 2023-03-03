@@ -6,6 +6,7 @@ import { serverHost, useData, getData} from '../data';
 const{Option} = Select
 
 function SearchBar(props) {
+    const context = useData();
     const {method,query,options,setQuery,setOptions,selectMethod,result,setResult,setBook} = useData();
     const {show,setShow,identity} = props
 
@@ -19,7 +20,6 @@ function SearchBar(props) {
       for (let index=0; index < keys.length; index++){
         res.push(lists[keys[index]])
       }
-
       if(res.length > 0){
         setBook(res[0])
       }else{
@@ -47,7 +47,8 @@ function SearchBar(props) {
         //setOptions([{value:"enter"}])
         console.log(identity)
         console.log(`Query type ${method} : ${query}`);
-        let url = serverHost+`search?uid=${12345}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${20}`
+        let url = serverHost+`search?uid=${12345}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${9}`;
+        let url2 = serverHost+`search?uid=${12345}&query_type=${method}&query=${query}`;
         console.log(url)
         if(identity == "HomePage") {
 
@@ -113,14 +114,12 @@ function SearchBar(props) {
               "description": "492 Howard Place, Verdi, District Of Columbia, 4332"
             }
           }
-          setResult(toArray(a))
-          // getData(url,{}).then((books)=> setResult(toArray(a))).catch(err=>{console.log(err)}).then(setShow(!show)).then(console.log(result));
-          setShow(!show)
+          // 
+          getData(url,{}).then((books)=> {setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setApi(url2)}).catch(err=>{console.log(err)}).then(setShow(!show)).then(console.log(result));
           console.log("from home")
         }else{
           console.log("from result")
-          // getData(url,{}).then((books)=> setResult(toArray({}))).catch(err=>{console.log(err)}).then(console.log(result));
-          setResult(toArray({}))
+          getData(url,{}).then((books)=> setResult(toArray({}))).catch(err=>{console.log(err)}).then(console.log(result));
         }
 
       }
