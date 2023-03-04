@@ -1,4 +1,4 @@
-import React, {useState,useEffect,useContext}from 'react'
+import React, {useEffect}from 'react'
 import { Space, Select, AutoComplete, Button, } from 'antd'
 import {SearchOutlined} from '@ant-design/icons';
 import { serverHost, useData, getData} from '../data';
@@ -49,7 +49,12 @@ function SearchBar(props) {
         console.log(url)
         if(identity == "HomePage") {
 
-          let a = {
+          getData(url,context.setLoading).then((books)=> {setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setApi(url2)}).catch(err=>{console.log(err)}).then(setShow(!show));
+          console.log("from home")
+        }else{
+          console.log("from result")
+          // context.setLoading(true);
+                    let a = {
             1: {
               "language_code": "US",
               "country_code": "Bangladesh",
@@ -111,12 +116,7 @@ function SearchBar(props) {
               "description": "492 Howard Place, Verdi, District Of Columbia, 4332"
             }
           }
-          // 
-          getData(url,{}).then((books)=> {setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setApi(url2)}).catch(err=>{console.log(err)}).then(setShow(!show)).then(console.log(result));
-          console.log("from home")
-        }else{
-          console.log("from result")
-          getData(url,{}).then((books)=> setResult(toArray(books.result_list))).catch(err=>{console.log(err)}).then(console.log(result));
+          getData(url,context.setLoading).then((books)=> {setResult(toArray(a)); context.setNum_res(books.result_num); context.setApi(url2)}).catch(err=>{console.log(err)});
         }
 
       }
