@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link, useNavigate,useLocation} from 'react-router-dom';
 import { Button, Input} from 'antd';
 import QueueAnim from 'rc-queue-anim';
@@ -11,12 +11,11 @@ import BookDetail from '../BookDetail/BookDetail';
 
 
 function ResultPage() {
-  const context = useData();
   const navigate = useNavigate();
   const [show, setShow] = useState(true);
   const cLocation = useLocation();
-  let books = context.result;
-  let totalNum = context.result.result_num
+
+
 
   const handleBack = (event)=>{
     event.stopPropagation();
