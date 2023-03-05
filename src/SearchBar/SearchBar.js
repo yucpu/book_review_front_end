@@ -40,7 +40,7 @@ function SearchBar(props) {
   const handleSearchByButton = (value, event) => {
     // console.log(identity)
     // console.log(`Query type ${method} : ${query}`);
-    let url = serverHost + `search?uid=${12345}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${9}`;
+    let url = serverHost + `search?uid=${12345}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${10}`;
     let url2 = serverHost + `search?uid=${12345}&query_type=${method}&query=${query}`;
     // console.log(url)
     if (identity == "HomePage") {
@@ -146,7 +146,8 @@ function SearchBar(props) {
           value={query}
           options={options}
           onChange={handleInput}
-          onKeyDown={handleKey}>
+          onKeyDown={handleKey}
+          placeholder="Search Book by Typing Something">
         </AutoComplete>
         <Button
           type='primary'

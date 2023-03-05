@@ -65,6 +65,7 @@ function CardList() {
     position: 'bottom',
     align: 'center',
     pageSize: 10,
+    size:'small',
     total: context.num_res,
     onChange: (page, pageSize) => { getPageInfo(page, pageSize) },
     showSizeChanger: false
