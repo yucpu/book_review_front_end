@@ -29,7 +29,7 @@ function CardList() {
     let childs = ["Keyword: "];
     if (tags.length == 0) {
       return <div>No one know this ?</div>
-    } else if (tags.length >= 4) {
+    } else if (tags.length >= 5) {
       for (let i = 0; i < 5; i++) {
         childs.push(<Tag key={i} color={colors[Math.floor(Math.random() * colors.length)]}>{tags[i].name}</Tag>)
       }
