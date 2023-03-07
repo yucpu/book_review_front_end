@@ -1,6 +1,6 @@
 import React, { createElement, useMemo } from 'react';
 import "../CardList/CardList.css";
-import { List, Tag } from 'antd';
+import { List, Tag,Rate,Image} from 'antd';
 import { useData, serverHost, getData } from '../data';
 
 
@@ -44,11 +44,24 @@ function CardList() {
 
   let description = (item) => {
     return <div>
-      <div>
-        Total Pages: {item.num_pages},
-        Country: {item.country_code},
-        language: {item.language_code}
-        {randomTag(item)}
+      <div style={{display:'flex', flexFlow:'row'}}>
+        <div id="item_image" style={{width:"20%"}}>
+            <Image
+              style={{ height: '100%'}}
+              src={item.image_url ? item.image_url : 'error'}
+              fallback='https://miro.medium.com/max/1400/1*qdFdhbR00beEaIKDI_WDCw.gif'
+            />
+        </div>
+        <div id="item_information" style={{width:"80%"}}>
+          <Rate defaultValue={item.average_rating}></Rate>
+          <div>by: {item.author_list}</div>
+          <div>country: {item.country_code}</div>
+          <div>language: {item.language_code}</div>
+          <div>link: <a src={item.url}>link</a></div>
+          <div></div>
+          {randomTag(item)}
+          <p style={{textOverflow:"ellipsis", overflow:'hidden',width:'70%', display:'block',whiteSpace:'nowrap'}}>{item.description}</p>
+        </div>
       </div>
     </div>
   }
@@ -65,7 +78,7 @@ function CardList() {
     position: 'bottom',
     align: 'center',
     pageSize: 10,
-    size:'small',
+    size:'default',
     total: context.num_res,
     onChange: (page, pageSize) => { getPageInfo(page, pageSize) },
     showSizeChanger: false
@@ -79,6 +92,7 @@ function CardList() {
       pagination={pagination}
       align='left'
       split={true}
+    
       loading={context.loading}
       size='small'
       dataSource={context.result}

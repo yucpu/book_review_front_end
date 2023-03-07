@@ -56,7 +56,7 @@ function ResultPage() {
                   </div>
 
                   <div id='overview'>
-                    <BookDetail/>
+                    {/* <BookDetail/> */}
                   </div>
                 </div>
               </div>

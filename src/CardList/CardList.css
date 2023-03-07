@@ -5,15 +5,15 @@
     flex-direction: column;
 
 }
-#CardList > .ant-spin-nested-loading{
+/* #CardList > .ant-spin-nested-loading{
     flex-grow: 13;
-}
+} */
 
-#CardList > .ant-list-pagination{
-    flex-grow: 1;
-}
+/* #CardList > .ant-list-pagination{
+    flex-grow: 2;
+} */
 
 
-.pageLocation{
+/* .pageLocation{
     padding-bottom: 10%;
-}
+} */

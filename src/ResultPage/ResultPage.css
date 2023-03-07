@@ -30,7 +30,7 @@
 
 #result_list{
     /* flex-grow: 3; */
-    width: 60%;
+    width: 100%;
     background-color: white;
     margin-right: 20px;
     box-shadow: 0 5px 12px 4px rgba(0, 0, 0, 0.09);
@@ -44,11 +44,11 @@
     display: none; /* Chrome Safari */
   }
 
-#overview{
-    /* flex-grow: 1; */
+/* #overview{
+   
     width: 40%;
     background-color: white;
     border-radius: 2mm;
     height: 100%;
 
-}
+} */
