@@ -44,75 +44,12 @@ function SearchBar(props) {
     let url2 = serverHost + `search?uid=${12345}&query_type=${method}&query=${query}`;
     // console.log(url)
     if (identity == "HomePage") {
-
-      getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setApi(url2) }).catch(err => { console.log(err) }).then(setShow(!show));
+      getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setApi(url2) }).catch(err => { context.setLoading(false); setResult([]); }).then(setShow(!show));
       console.log("from home")
     } else {
       console.log("from result")
       // context.setLoading(true);
-      let a = {
-        1: {
-          "language_code": "US",
-          "country_code": "Bangladesh",
-          "ratings_count": 36,
-          "image_url": "http://placehold.it/32x32",
-          "average_rating": 8,
-          "title": "Utah",
-          "url": "https://www.goodreads.com/book/show/7327624-the-unschooled-wizard",
-          "publication_year": 2008,
-          "publication_month": 3,
-          "publication_day": 5,
-          "num_pages": 441,
-          "date": "1970-2-3",
-          "author_list": [
-            "Case Blackwell",
-            "Catalina Hunter"
-          ],
-          "publisher": "FRANSCENE",
-          "description": "252 Seabring Street, Bancroft, Oklahoma, 6213"
-        },
-        2: {
-          "language_code": "US",
-          "country_code": "Chile",
-          "ratings_count": 115,
-          "image_url": "http://placehold.it/32x32",
-          "average_rating": 8,
-          "title": "Wisconsin",
-          "url": "https://www.goodreads.com/book/show/7327624-the-unschooled-wizard",
-          "publication_year": 1972,
-          "publication_month": 0,
-          "publication_day": 3,
-          "num_pages": 466,
-          "date": "2001-7-6",
-          "author_list": [
-            "Mitzi Lindsey",
-            "Michael Tyler"
-          ],
-          "publisher": "ANARCO",
-          "description": "553 Schaefer Street, Marbury, West Virginia, 6123"
-        },
-        3: {
-          "language_code": "US",
-          "country_code": "Croatia (Hrvatska)",
-          "ratings_count": 245,
-          "image_url": "https://images.gr-assets.com/books/1304100136m/7327624.jpg",
-          "average_rating": 7,
-          "title": "American Samoa",
-          "url": "https://www.goodreads.com/book/show/7327624-the-unschooled-wizard",
-          "publication_year": 2002,
-          "publication_month": 5,
-          "publication_day": 1,
-          "num_pages": 649,
-          "date": "2010-3-4",
-          "author_list": [
-            "Owens Mason",
-            "Heidi Gardner"
-          ],
-          "publisher": "ORGANICA",
-          "description": "492 Howard Place, Verdi, District Of Columbia, 4332"
-        }
-      }
-      getData(url, context.setLoading).then((books) => { setResult(toArray(a)); context.setNum_res(books.result_num); context.setApi(url2) }).catch(err => { console.log(err) });
+      getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setApi(url2) }).catch(err => { context.setLoading(false); setResult([]) });
     }
 
   }
