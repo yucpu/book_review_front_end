@@ -2,7 +2,7 @@ import { useState, createContext,useContext } from "react";
 
 export const DataContext = createContext(null);
 const {Provider} = DataContext;
-export const serverHost = 'http://769c8b6b-fb9c-4090-91ce-c4b37a9545be.mock.pstmn.io/'
+export const serverHost = 'http://34.91.189.170:8080/'
 
 export const DataProvider = ({children}) => {
     const [user, setUser] = useState(null);
@@ -49,8 +49,8 @@ export async function getData(url = '', load){
         cache: 'default',
         credentials: 'same-origin',
         headers : {'Content-Type': 'application/json; charset=utf-8'},
+    
     })
-
     const response = await fetch(request);
     load(false)
     return response.json();
