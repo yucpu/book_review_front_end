@@ -1,27 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import { Link, useNavigate,useLocation} from 'react-router-dom';
-import { Button, Input} from 'antd';
+import { Button, Input, Layout} from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import '../ResultPage/ResultPage.css';
 import SearchBar from '../SearchBar/SearchBar';
-import { useData } from '../data';
 import CardList from '../CardList/CardList';
 import BookDetail from '../BookDetail/BookDetail';
 
 
+const {Header, Content} = Layout
 
 function ResultPage() {
   const navigate = useNavigate();
   const [show, setShow] = useState(true);
   const cLocation = useLocation();
-
-
-
   const handleBack = (event)=>{
     event.stopPropagation();
     setShow(!show);
    
   }
+
+
+
   const handleEnd = (object)=>{
     if (object.type == "leave"){
       navigate('/');
@@ -30,37 +30,30 @@ function ResultPage() {
   }
 
   return (
-    <QueueAnim 
+    <QueueAnim
+     
       className='full_page'
       type={['left','right']}
       duration={200}
       onEnd={handleEnd}
       >
         {show ? [
-          <div 
-            key="0" 
-            style={{backdropFilter:'blur(3px)'}}
+          <Layout 
+            id='result_page'
             className="full_page"
-            onClick={handleBack}>    
-              <div 
-                id='result_page' 
-                onClick={e=>e.stopPropagation()}
-                >
-                <div id="search_area">
-                  <SearchBar show={show} setShow={setShow} identity="ResultPage"/>
+            key="layout"
+            >    
+              <Header style={{position:'sticky', height:"20%"}}>
+                <div style={{width:"50%", marginLeft:"20%"}}>
+                <SearchBar show={show} setShow={setShow} identity="ResultPage" style={{width:"50%"}}/>
                 </div>
-                <div id="result_area">
-                  <div id='result_list'>
-                    {/* {console.log(Object.getOwnPropertyNames(books))} */}
+              </Header>
+              <Content>
+                <div id="list_area">
                     <CardList/>
-                  </div>
-
-                  <div id='overview'>
-                    {/* <BookDetail/> */}
-                  </div>
                 </div>
-              </div>
-          </div>
+              </Content>
+          </Layout>
         ] : null}
     </QueueAnim>
   )

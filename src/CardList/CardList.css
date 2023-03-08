@@ -1,19 +1,12 @@
 #CardList{
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-
+    /* display: flex; */
+    /* margin-bottom: 1px; */
 }
-/* #CardList > .ant-spin-nested-loading{
-    flex-grow: 13;
-} */
 
-/* #CardList > .ant-list-pagination{
-    flex-grow: 2;
-} */
-
-
-/* .pageLocation{
-    padding-bottom: 10%;
-} */
+#CardList > .ant-list-pagination > .ant-pagination{
+    /* height: 10%; */
+    /* margin-block-start: 0px; */
+    transform: translate(0px,-10px);
+}

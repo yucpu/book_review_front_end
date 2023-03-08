@@ -1,13 +1,13 @@
 import React, { createElement, useMemo } from 'react';
+import { List, Tag, Rate, Image, Typography } from 'antd';
+import { useData, getData } from '../data';
+import CustomeP from "../util/customeP";
 import "../CardList/CardList.css";
-import { List, Tag,Rate,Image} from 'antd';
-import { useData, serverHost, getData } from '../data';
 
+const { Title, Paragraph} = Typography
 
 function CardList() {
   const context = useData()
-
-
   function toArray(lists) {
     let keys = Object.getOwnPropertyNames(lists)
     let res = []
@@ -42,25 +42,27 @@ function CardList() {
     return res;
   }
 
-  let description = (item) => {
-    return <div>
-      <div style={{display:'flex', flexFlow:'row'}}>
-        <div id="item_image" style={{width:"20%"}}>
-            <Image
-              style={{ height: '100%'}}
-              src={item.image_url ? item.image_url : 'error'}
-              fallback='https://miro.medium.com/max/1400/1*qdFdhbR00beEaIKDI_WDCw.gif'
-            />
+  let description = (item,index) => {
+
+    return <div key={index}>
+      <div style={{ display: 'flex', flexFlow: 'row' }}>
+        <div id="item_image" style={{ width: "15%" ,textAlign:'center', marginTop:"5%"}}>
+          <Image
+            style={{height:'100%'}}
+            src={item.image_url ? item.image_url : 'error'}
+            fallback='https://miro.medium.com/max/1400/1*qdFdhbR00beEaIKDI_WDCw.gif'
+          />
         </div>
-        <div id="item_information" style={{width:"80%"}}>
+        <div id="item_information" style={{ width: "80%" }}>
+          <Title level={4}>{item.title}</Title>
           <Rate defaultValue={item.average_rating}></Rate>
           <div>by: {item.author_list}</div>
           <div>country: {item.country_code}</div>
           <div>language: {item.language_code}</div>
-          <div>link: <a src={item.url}>link</a></div>
-          <div></div>
+          <div>link: <a href={item.url}>{item.url}</a></div>
           {randomTag(item)}
-          <p style={{textOverflow:"ellipsis", overflow:'hidden',width:'70%', display:'block',whiteSpace:'nowrap'}}>{item.description}</p>
+          {/* <Paragraph ellipsis={true ? {expandable:true}:false}>{item.description} <a>collapse</a></Paragraph> */}
+          <div key={index}><CustomeP description={item.description}/></div>
         </div>
       </div>
     </div>
@@ -78,30 +80,26 @@ function CardList() {
     position: 'bottom',
     align: 'center',
     pageSize: 10,
-    size:'default',
+    size: 'default',
     total: context.num_res,
     onChange: (page, pageSize) => { getPageInfo(page, pageSize) },
     showSizeChanger: false
 
   }
-
   return useMemo(() => {
-
     return <List
       id='CardList'
       pagination={pagination}
       align='left'
       split={true}
-    
       loading={context.loading}
       size='small'
       dataSource={context.result}
       renderItem={(item, index) => (
-        <List.Item>
+        <List.Item key={index}>
           <List.Item.Meta
-            key={index}
-            title={<a onClick={() => context.setBook(item)}>{item.title}</a>}
-            description={description(item)}
+            
+            description={description(item,index)}
           />
         </List.Item>
       )}

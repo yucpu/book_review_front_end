@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import QueueAnim from 'rc-queue-anim';
 import "../HomePage/HomePage.css";
 import SearchBar from '../SearchBar/SearchBar';
-import { DataContext, useData } from '../data';
+
 
 
 
