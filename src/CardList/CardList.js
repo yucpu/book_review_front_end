@@ -54,7 +54,7 @@ function CardList() {
           />
         </div>
         <div id="item_information" style={{ width: "80%" }}>
-          <Title level={4}>{item.title}</Title>
+          <Title id="book_title" level={4} >{item.title}</Title>
           <Rate defaultValue={item.average_rating}></Rate>
           <div>by: {item.author_list}</div>
           <div>country: {item.country_code}</div>

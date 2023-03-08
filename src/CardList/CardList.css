@@ -10,3 +10,12 @@
     /* margin-block-start: 0px; */
     transform: translate(0px,-10px);
 }
+
+#book_title{
+    color: #096dd9;
+}
+
+#book_title:hover{
+    
+    color:#40a9ff;
+}

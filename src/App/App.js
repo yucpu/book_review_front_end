@@ -10,8 +10,6 @@ import { DataProvider } from '../data';
 function App() {
   const [author,setAuthor] =  useState("Yuchen Pu")
  
-
-
   return (
     <DataProvider>
       <div id="App">
@@ -23,10 +21,10 @@ function App() {
         </a>
         <Routes>
           <Route path="/*" element={<HomePage props/>} />
-          <Route path="/search/*" element={<ResultPage props/>}/>
+          <Route path="/search" element={<ResultPage props/>}/>
           <Route path="/login" element = {<LoginPage props/>}/>
         </Routes>
-        
+  
       </div>
     </DataProvider>
   )

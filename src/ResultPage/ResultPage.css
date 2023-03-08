@@ -10,9 +10,9 @@
 
 
 #list_area{
-    width: 60%;
+    width: 50%;
     height: 100%;
-    transform: translate(30%);
+    transform: translate(20%);
     background-color: #fafafa;
     border-radius: 2mm;
     overflow-y: scroll;
@@ -22,6 +22,11 @@
 ::-webkit-scrollbar {
     display: none; /* Chrome Safari */
   }
+
+
+.icon_selected{
+    color: #40a9ff;
+}
 
 /* #overview{
    
