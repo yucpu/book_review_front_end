@@ -8,11 +8,10 @@
     
 }
 
-
 #list_area{
     width: 50%;
     height: 100%;
-    transform: translate(20%);
+    margin-left: calc(10% + 40px);
     background-color: #fafafa;
     border-radius: 2mm;
     overflow-y: scroll;
@@ -27,6 +26,35 @@
 .icon_selected{
     color: #40a9ff;
 }
+
+.app_header{
+    width: 100%;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.12);
+    z-index: 1;
+    display:flex;
+    position: relative;
+}
+
+.ant-layout-header{
+    background-color: #ffffff;
+}
+
+.app_user{
+    position: absolute;
+    top: 16px;
+    right: 64px;
+    -webkit-transition:width 0.2s;
+    transition: width 0.2s;
+    width: 50px;
+    width: 1px;
+}
+
+.app_user:hover{
+    width: 100px;
+}
+
+
+
 
 /* #overview{
    

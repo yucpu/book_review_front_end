@@ -1,13 +1,16 @@
 import React, { createElement, useMemo } from 'react';
 import { List, Tag, Rate, Image, Typography } from 'antd';
-import { useData, getData } from '../data';
+import { useData, getData, serverHost } from '../data';
 import CustomeP from "../util/customeP";
 import "../CardList/CardList.css";
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const { Title, Paragraph} = Typography
 
 function CardList() {
   const context = useData()
+  const navigate = useNavigate();
+  const [params, setParams] = useSearchParams();
   function toArray(lists) {
     let keys = Object.getOwnPropertyNames(lists)
     let res = []
@@ -21,7 +24,6 @@ function CardList() {
     }
     return res;
   }
-
 
   let randomTag = (item) => {
     let colors = ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"];
@@ -61,7 +63,6 @@ function CardList() {
           <div>language: {item.language_code}</div>
           <div>link: <a href={item.url}>{item.url}</a></div>
           {randomTag(item)}
-          {/* <Paragraph ellipsis={true ? {expandable:true}:false}>{item.description} <a>collapse</a></Paragraph> */}
           <div key={index}><CustomeP description={item.description}/></div>
         </div>
       </div>
@@ -69,11 +70,14 @@ function CardList() {
   }
 
   let getPageInfo = (page, pageSize) => {
-    let url2 = context.api;
     let result_from = (page * pageSize) - pageSize;
     let result_to = (page * pageSize) - 1;
-    url2 += `&result_range_from=${result_from}&result_range_to=${result_to}`;
-    getData(url2, context.setLoading).then((books) => context.setResult(toArray(books.result_list))).catch(err => { console.log(err) }).then(() => context.setLoading(false));
+    let url = serverHost + `/search?uid=${params.get("uid")}&query_type=${params.get("query_type")}&query=${params.get("query")}&result_range_from=${result_from}&result_range_to=${result_to}&score=${0}/`;
+    navigate(`/search?uid=${params.get("uid")}&query_type=${params.get("query_type")}&query=${params.get("query")}&result_range_from=${result_from}&result_range_to=${result_to}&score=${0}/`);
+    getData(url, context.setLoading)
+    .then((books) => context.setResult(toArray(books.result_list)))
+    .catch(err => { console.log(err) })
+    .then(() => context.setLoading(false));
   }
 
   const pagination = {
@@ -84,7 +88,6 @@ function CardList() {
     total: context.num_res,
     onChange: (page, pageSize) => { getPageInfo(page, pageSize) },
     showSizeChanger: false
-
   }
   return useMemo(() => {
     return <List

@@ -12,7 +12,6 @@ export const DataProvider = ({children}) => {
     const [result,setResult] = useState([]);
     const [book,setBook] = useState({});
     const [num_res, setNum_res] = useState(0);
-    const [api, setApi] = useState(0);
     const [loading, setLoading] = useState(false);
     const login = (user) => {
         setUser(user)
@@ -28,11 +27,10 @@ export const DataProvider = ({children}) => {
 
 
     return (
-        <Provider value={{ user, login, loginOut, method, 
+        <Provider value={{ user,setUser,login, loginOut, method, 
         selectMethod, options, setOptions, query, 
         setQuery, result,setResult, book, setBook,
-        num_res, setNum_res, api,setApi,
-        loading,setLoading}}>
+        num_res, setNum_res, loading,setLoading}}>
             {children}
         </Provider>
     )
