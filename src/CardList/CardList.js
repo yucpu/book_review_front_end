@@ -11,16 +11,12 @@ function CardList() {
   const context = useData()
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
+
   function toArray(lists) {
     let keys = Object.getOwnPropertyNames(lists)
     let res = []
     for (let index = 0; index < keys.length; index++) {
       res.push(lists[keys[index]])
-    }
-    if (res.length > 0) {
-      context.setBook(res[0])
-    } else {
-      context.setBook({})
     }
     return res;
   }
@@ -44,8 +40,12 @@ function CardList() {
     return res;
   }
 
+  let selectBook = (item) =>{
+    // context.setComments(item.comments);
+    context.setCommentShow(true);
+  }
+  
   let description = (item,index) => {
-
     return <div key={index}>
       <div style={{ display: 'flex', flexFlow: 'row' }}>
         <div id="item_image" style={{ width: "15%" ,textAlign:'center', marginTop:"5%"}}>
@@ -55,8 +55,8 @@ function CardList() {
             fallback='https://miro.medium.com/max/1400/1*qdFdhbR00beEaIKDI_WDCw.gif'
           />
         </div>
-        <div id="item_information" style={{ width: "80%" }}>
-          <Title id="book_title" level={4} >{item.title}</Title>
+        <div id="item_information" style={{ width: "80%", marginLeft:'10px'}}>
+          <Title id="book_title" level={4} onClick={(item)=> selectBook(item)}>{item.title}</Title>
           <Rate defaultValue={item.average_rating}></Rate>
           <div>by: {item.author_list}</div>
           <div>country: {item.country_code}</div>
@@ -68,7 +68,6 @@ function CardList() {
       </div>
     </div>
   }
-
   let getPageInfo = (page, pageSize) => {
     let result_from = (page * pageSize) - pageSize;
     let result_to = (page * pageSize) - 1;
@@ -101,7 +100,6 @@ function CardList() {
       renderItem={(item, index) => (
         <List.Item key={index}>
           <List.Item.Meta
-            
             description={description(item,index)}
           />
         </List.Item>
