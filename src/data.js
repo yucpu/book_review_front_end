@@ -10,9 +10,11 @@ export const DataProvider = ({children}) => {
     const [options, setOptions] = useState([]);
     const [query, setQuery] = useState("");
     const [result,setResult] = useState([]);
-    const [book,setBook] = useState({});
     const [num_res, setNum_res] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [graph,setGraph] = useState({});
+    const [commentShow, setCommentShow] = useState(false);
+    const [comments, setComments] = useState([]);
     const login = (user) => {
         setUser(user)
     }
@@ -29,8 +31,10 @@ export const DataProvider = ({children}) => {
     return (
         <Provider value={{ user,setUser,login, loginOut, method, 
         selectMethod, options, setOptions, query, 
-        setQuery, result,setResult, book, setBook,
-        num_res, setNum_res, loading,setLoading}}>
+        setQuery, result,setResult,
+        num_res, setNum_res, loading,setLoading,
+        commentShow, setCommentShow,
+        graph,setGraph}}>
             {children}
         </Provider>
     )
@@ -55,7 +59,7 @@ export async function getData(url = '', load){
 }
 
 export async function postData(url = '', data={}, load){
-    load();
+    load(false);
     let request = new Request(url, {
         method: 'POST',
         mode: 'no-cors',
@@ -64,7 +68,7 @@ export async function postData(url = '', data={}, load){
         headers : {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify(data)
     })
-
+    load(false)
     const response = await fetch(request);
     return response;
 }
