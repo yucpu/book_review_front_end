@@ -1,14 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Layout, Slider } from 'antd';
+import { Layout, Slider } from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import '../ResultPage/ResultPage.css';
 import SearchBar from '../SearchBar/SearchBar';
 import CardList from '../CardList/CardList';
-import BookDetail from '../BookDetail/BookDetail';
 import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
 import { serverHost, useData, getData} from '../data';
 import UserLogin from '../util/userLogin';
+import Graph from '../GraphPage/Graph';
+import Comments from '../BookDetail/Comments';
+
 
 const { Header, Content } = Layout
 function ResultPage(props) {
@@ -24,11 +26,6 @@ function ResultPage(props) {
     for (let index = 0; index < keys.length; index++) {
       res.push(lists[keys[index]])
     }
-    if (res.length > 0) {
-      context.setBook(res[0])
-    } else {
-      context.setBook({})
-    }
     return res;
   }
 
@@ -42,7 +39,6 @@ function ResultPage(props) {
     
     if (rangeFrom % 10 != 0 || rangeTo % 10 != 9){
       context.setResult([]);
-      context.setBook({})
       console.log("Wrong")
       
     }else{
@@ -54,10 +50,6 @@ function ResultPage(props) {
     }
   }, [])
 
-  const getBookAtScore = (score) => {
-    // getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setApi(url2) })
-    // .catch(err => { context.setLoading(false); setResult([]) });
-  }
 
 
   return useMemo(() => {
@@ -87,10 +79,12 @@ function ResultPage(props) {
               </div>
               <UserLogin/>
             </Header>
-            <Content>
+            <Content style={{display:'flex'}}>
               <div id="list_area">
                 <CardList />
               </div>
+              <Graph/>
+              <Comments/>
             </Content>
           </Layout>
         ] : null}

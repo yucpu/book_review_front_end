@@ -43,9 +43,9 @@
     position: absolute;
     top: 16px;
     right: 64px;
-    -webkit-transition:width 0.2s;
-    transition: width 0.2s;
-    width: 50px;
+    -webkit-transition:width 0.7s;
+    transition: width 0.7s;
+    
     width: 1px;
 }
 
