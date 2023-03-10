@@ -8,7 +8,7 @@ const { Option } = Select
 function SearchBar(props) {
   const context = useData();
   const navigate = useNavigate();
-  const { user, method, query, options, setQuery, setOptions, selectMethod, setResult, setBook } = useData();
+  const { user, method, query, options, setQuery, setOptions, selectMethod, setResult} = useData();
   const { show, setShow, identity } = props
 
   function toArray(lists) {
@@ -17,11 +17,7 @@ function SearchBar(props) {
     for (let index = 0; index < keys.length; index++) {
       res.push(lists[keys[index]])
     }
-    if (res.length > 0) {
-      setBook(res[0])
-    } else {
-      setBook({})
-    }
+
     return res;
   }
 
@@ -43,11 +39,11 @@ function SearchBar(props) {
     // console.log(`Query type ${method} : ${query}`);
     let url = serverHost + `search?uid=${user}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${10}`;
     if (identity == "HomePage") {
-      navigate(`/search?uid=${"X2f41iq0ql1g1h"}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
+      navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
       console.log("from home")
     } else {
       console.log("from result")
-      navigate(`/search?uid=${"X2f41iq0ql1g1h"}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
+      navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
       getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num);}).catch(err => { context.setLoading(false); setResult([]) });
     }
   }

@@ -15,20 +15,11 @@ export default function HomePage(props) {
   const navigate = useNavigate();
   const context = useData();
   
-  const handleEnd = (object) => {
-    if (object.type == 'leave') {
-      // navigate(`/result/${context.method}/{query_id}/{session_id}/`);
-      navigate(`/search?uid=${"X2f41iq0ql1g1h"}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${20}&score=${0}/`)
-      // navigate(`/search?uid=${"X2f41iq0ql1g1h"}`)
-    }
-  }
-
-
   return (
     <QueueAnim
       className='full_page'
       type={['left', 'right']}
-      onEnd={handleEnd}
+    
     >
       {show ?
         <div key='a' className='full_page'>
