@@ -2,12 +2,13 @@ import React from 'react'
 import { Space, Select, AutoComplete, Button, } from 'antd'
 import { SearchOutlined } from '@ant-design/icons';
 import { serverHost, useData, getData } from '../data';
-
+import { useNavigate } from 'react-router-dom';
 const { Option } = Select
 
 function SearchBar(props) {
   const context = useData();
-  const { method, query, options, setQuery, setOptions, selectMethod, setResult, setBook } = useData();
+  const navigate = useNavigate();
+  const { user, method, query, options, setQuery, setOptions, selectMethod, setResult, setBook } = useData();
   const { show, setShow, identity } = props
 
   function toArray(lists) {
@@ -40,20 +41,16 @@ function SearchBar(props) {
   const handleSearchByButton = (value, event) => {
     // console.log(identity)
     // console.log(`Query type ${method} : ${query}`);
-    let url = serverHost + `search?uid=${12345}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${10}`;
-    let url2 = serverHost + `search?uid=${12345}&query_type=${method}&query=${query}`;
-    // console.log(url)
+    let url = serverHost + `search?uid=${user}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${10}`;
     if (identity == "HomePage") {
-      getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setApi(url2) }).catch(err => { context.setLoading(false); setResult([]); }).then(setShow(!show));
+      navigate(`/search?uid=${"X2f41iq0ql1g1h"}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
       console.log("from home")
     } else {
       console.log("from result")
-      // context.setLoading(true);
-      getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setApi(url2) }).catch(err => { context.setLoading(false); setResult([]) });
+      navigate(`/search?uid=${"X2f41iq0ql1g1h"}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
+      getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num);}).catch(err => { context.setLoading(false); setResult([]) });
     }
-
   }
-
   const queryExpansion = (value) => {
     let answer = new Promise((resolve, reject) => {
       // get 
