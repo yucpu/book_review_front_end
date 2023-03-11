@@ -20,7 +20,7 @@ export const DataProvider = ({children}) => {
     const [result,setResult] = useState([]);
     const [num_res, setNum_res] = useState(0);
     const [loading, setLoading] = useState(false);
-    const [graph,setGraph] = useState({});
+    const [graph,setGraph] = useState({ nodes: [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }], links: [{ source: "1", target: "2" }, { source: "2", target: "3" }, { source: "4", target: "1" }, { source: "4", target: "2" }]});
     const [commentShow, setCommentShow] = useState(false);
     const [comments, setComments] = useState([{user:"TTDS",score:2.5, comment:"Harry Potter is a beloved fantasy book series written by J.K. Rowling that has captured the hearts of millions of readers around the world. The series follows the story of a young wizard named Harry Potter who discovers his true identity and his role in the wizarding world."}]);
     const login = (user) => {
@@ -33,8 +33,6 @@ export const DataProvider = ({children}) => {
     const selectMethod = (method) =>{
         setMethod(method)
     }
-
-
 
     return (
         <Provider value={{ user,setUser,login, loginOut, method, 
@@ -66,17 +64,16 @@ export async function getData(url = '', load){
     return response.json();
 }
 
-export async function postData(url = '', data={}, load){
-    load(false);
+export async function postData(url = '', data={}){
+
     let request = new Request(url, {
         method: 'POST',
         mode: 'no-cors',
         cache: 'default',
-        credentials: 'include',
+        credentials: 'same-origin',
         headers : {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify(data)
     })
-    load(false)
     const response = await fetch(request);
     return response;
 }

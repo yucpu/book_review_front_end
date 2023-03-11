@@ -1,13 +1,14 @@
 import {React,useMemo} from 'react';
 import { ForceGraph2D } from 'react-force-graph';
 import SpriteText from 'three-spritetext';
+import { getData, useData } from '../data';
 import "../GraphPage/Graph.css"
 
 
 function Graph() {
+  const context = useData()
+  // let data = { nodes: [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }], links: [{ source: "1", target: "2" }, { source: "2", target: "3" }, { source: "4", target: "1" }, { source: "4", target: "2" }]}
 
-  let links = [{ source: "1", target: "2" }, { source: "2", target: "3" }, { source: "4", target: "1" }, { source: "4", target: "2" }]
-  let data = { nodes: [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }], links: links }
 
   let expand = (node, event) => {
     console.log(node.id);
@@ -15,7 +16,7 @@ function Graph() {
   return useMemo(() => {
     return (
       <div className='Graph'>
-        <ForceGraph2D graphData={data}
+        <ForceGraph2D graphData={context.graph}
           // nodeThreeObject={node => { const sprite = new SpriteText(node.id); sprite.color = "red"; return sprite }}
           // nodeThreeObjectExtend={false}
           nodeCanvasObject={(node, ctx, globalScale) => {
@@ -43,7 +44,7 @@ function Graph() {
         />
       </div>
     )
-  }, [])
+  }, [context.graph])
 
 }
 

@@ -1,6 +1,6 @@
 import React, { createElement, useMemo } from 'react';
 import { List, Tag, Rate, Image, Typography } from 'antd';
-import { useData, getData, serverHost } from '../data';
+import { useData, getData, serverHost, postData } from '../data';
 import CustomeP from "../util/customeP";
 import "../CardList/CardList.css";
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -44,6 +44,15 @@ function CardList() {
     // context.setComments(item.comments);
     context.setCommentShow(true);
   }
+
+  let sendScore = (score, book_id) =>{
+    if(context.user){
+      let url = serverHost + `sendscore`;
+      let rating = {uid:context.user, bookid:book_id, score:score};
+      console.log(score);
+      postData(url,rating);
+    }
+  }
   
   let description = (item,index) => {
     return <div key={index}>
@@ -57,7 +66,7 @@ function CardList() {
         </div>
         <div id="item_information" style={{ width: "80%", marginLeft:'10px'}}>
           <Title id="book_title" level={4} onClick={(item)=> selectBook(item)}>{item.title}</Title>
-          <Rate defaultValue={item.average_rating}></Rate>
+          <Rate defaultValue={item.average_rating} onChange={(value)=>sendScore(value, item.book_id)} allowHalf></Rate>
           <div>by: {item.author_list}</div>
           <div>country: {item.country_code}</div>
           <div>language: {item.language_code}</div>
