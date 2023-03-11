@@ -31,6 +31,7 @@ function ResultPage(props) {
 
   useEffect(() => {
     let uid = params.get("uid");
+  
     let method = params.get("query_type");
     let query = params.get("query");
     let rangeFrom = params.get("result_range_from");

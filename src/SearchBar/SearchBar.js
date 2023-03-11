@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import { Space, Select, AutoComplete, Button, } from 'antd'
 import { SearchOutlined } from '@ant-design/icons';
 import { serverHost, useData, getData, getSuggestion } from '../data';
@@ -6,16 +6,15 @@ import { useNavigate } from 'react-router-dom';
 const { Option } = Select
 
 function SearchBar(props) {
-  const [time, setTime] = useState(1000);
   const context = useData();
   const navigate = useNavigate();
   const { user, method, query, options, setQuery, setOptions, selectMethod, setResult } = useData();
-  const { show, setShow, identity } = props;
+  const {identity } = props;
   let timeOutId = null;
 
   useEffect(()=>{
     if(query){
-      timeOutId = setTimeout(()=>{queryExpansion(query)},600);
+      timeOutId = setTimeout(()=>{queryExpansion(query)},300);
     }
   },[query])
 

@@ -22,7 +22,7 @@ export const DataProvider = ({children}) => {
     const [loading, setLoading] = useState(false);
     const [graph,setGraph] = useState({});
     const [commentShow, setCommentShow] = useState(false);
-    const [comments, setComments] = useState([{user:"TTDS", comment:"Hard to read"}]);
+    const [comments, setComments] = useState([{user:"TTDS",score:2.5, comment:"Harry Potter is a beloved fantasy book series written by J.K. Rowling that has captured the hearts of millions of readers around the world. The series follows the story of a young wizard named Harry Potter who discovers his true identity and his role in the wizarding world."}]);
     const login = (user) => {
         setUser(user)
     }

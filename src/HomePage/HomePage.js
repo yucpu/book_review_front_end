@@ -1,7 +1,5 @@
-import React, { useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState} from 'react';
 import UserLogin from '../util/userLogin';
-
 import QueueAnim from 'rc-queue-anim';
 import "../HomePage/HomePage.css";
 import SearchBar from '../SearchBar/SearchBar';
@@ -12,6 +10,9 @@ import { useData } from '../data';
 
 export default function HomePage(props) {
   const [show, setShow] = useState(true);
+  const context = useData();
+
+  useEffect(()=>{console.log(context.user)},[])
 
   return (
     <QueueAnim

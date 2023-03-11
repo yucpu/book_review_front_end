@@ -22,7 +22,6 @@ function App() {
         <Routes>
           <Route path="/*" element={<HomePage props/>} />
           <Route path="/search" element={<ResultPage props/>}/>
-          {/* <Route path="/login" element = {<Graph/>}/> */}
         </Routes>
   
       </div>

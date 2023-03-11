@@ -1,7 +1,8 @@
-import { List, Modal, Avatar} from 'antd';
+import { List, Modal, Avatar, Rate} from 'antd';
 import React, { useMemo } from 'react';
 import '../BookDetail/Comments.css';
 import { useData } from '../data';
+import CustomeP from '../util/customeP';
 
 
 function Comments() {
@@ -26,7 +27,7 @@ function Comments() {
             title="Reader Comments"
             >
                 <List
-                    itemLayout="horizontal"
+                    itemLayout="vertical"
                     pagination={pagination}
                     split={true}
                     dataSource={context.comments}
@@ -35,9 +36,9 @@ function Comments() {
                             <List.Item.Meta
                                 avatar={<Avatar src={require("../resources/gamer.png")} />}
                                 title={item.user}
-                                description={item.comment}
+                                description={<Rate defaultValue={item.score} allowHalf={true} disabled/>}
                             />
-                            {item.comment}
+                            {<CustomeP description={item.comment}/>}
                         </List.Item>
                     )}
                 />
