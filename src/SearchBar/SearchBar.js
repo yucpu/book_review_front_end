@@ -1,15 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Space, Select, AutoComplete, Button, } from 'antd'
 import { SearchOutlined } from '@ant-design/icons';
-import { serverHost, useData, getData } from '../data';
+import { serverHost, useData, getData, getSuggestion } from '../data';
 import { useNavigate } from 'react-router-dom';
 const { Option } = Select
 
 function SearchBar(props) {
+  const [time, setTime] = useState(1000);
   const context = useData();
   const navigate = useNavigate();
-  const { user, method, query, options, setQuery, setOptions, selectMethod, setResult} = useData();
-  const { show, setShow, identity } = props
+  const { user, method, query, options, setQuery, setOptions, selectMethod, setResult } = useData();
+  const { show, setShow, identity } = props;
+  let timeOutId = null;
+
+  useEffect(()=>{
+    if(query){
+      timeOutId = setTimeout(()=>{queryExpansion(query)},600);
+    }
+  },[query])
+
 
   function toArray(lists) {
     let keys = Object.getOwnPropertyNames(lists)
@@ -17,7 +26,6 @@ function SearchBar(props) {
     for (let index = 0; index < keys.length; index++) {
       res.push(lists[keys[index]])
     }
-
     return res;
   }
 
@@ -29,8 +37,14 @@ function SearchBar(props) {
   }
 
   const handleInput = (value) => {
-    setQuery(value)
-    setOptions(value ? queryExpansion(value) : []); // asyn   
+    clearTimeout(timeOutId);
+    if (!value){
+      setOptions([])
+      setQuery(value);
+      return;
+    }
+    setQuery(value);
+       
   }
 
 
@@ -44,22 +58,18 @@ function SearchBar(props) {
     } else {
       console.log("from result")
       navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
-      getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num);}).catch(err => { context.setLoading(false); setResult([]) });
+      getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); }).catch(err => { context.setLoading(false); setResult([]) });
     }
   }
   const queryExpansion = (value) => {
-    let answer = new Promise((resolve, reject) => {
-      // get 
-      let res = true
-      if (res) {
-        resolve("Success: " + value);
-      } else {
-        reject("Failed: " + value);
+    getSuggestion(value).then(res => {
+      let temp = []
+      for (let index = 0; index < res.length / 2; index++) {
+        temp.push({ value: res[index] })
       }
-    }).then(res => {
-      setOptions([{ value: res }])
+      setOptions(temp)
     }, err => {
-      setOptions([{ value: err }])
+      setOptions([{ value: "No suggestion" }])
     })
   }
   return (
