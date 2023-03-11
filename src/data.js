@@ -23,6 +23,7 @@ export const DataProvider = ({children}) => {
     const [graph,setGraph] = useState({ nodes: [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }], links: [{ source: "1", target: "2" }, { source: "2", target: "3" }, { source: "4", target: "1" }, { source: "4", target: "2" }]});
     const [commentShow, setCommentShow] = useState(false);
     const [comments, setComments] = useState([{user:"TTDS",score:2.5, comment:"Harry Potter is a beloved fantasy book series written by J.K. Rowling that has captured the hearts of millions of readers around the world. The series follows the story of a young wizard named Harry Potter who discovers his true identity and his role in the wizarding world."}]);
+    const [display, setDisplay] = useState(true);
     const login = (user) => {
         setUser(user)
     }
@@ -40,7 +41,7 @@ export const DataProvider = ({children}) => {
         setQuery, result,setResult,
         num_res, setNum_res, loading,setLoading,
         commentShow, setCommentShow, comments, setComments,
-        graph,setGraph}}>
+        graph,setGraph,display, setDisplay}}>
             {children}
         </Provider>
     )
@@ -61,6 +62,9 @@ export async function getData(url = '', load){
     })
     const response = await fetch(request);
     load(false)
+    if(response.status == 404){
+        return response.status;
+    }
     return response.json();
 }
 

@@ -1,7 +1,7 @@
 import {React,useMemo} from 'react';
 import { ForceGraph2D } from 'react-force-graph';
 import SpriteText from 'three-spritetext';
-import { getData, useData } from '../data';
+import { getData, serverHost, useData } from '../data';
 import "../GraphPage/Graph.css"
 
 
@@ -10,7 +10,10 @@ function Graph() {
   // let data = { nodes: [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }], links: [{ source: "1", target: "2" }, { source: "2", target: "3" }, { source: "4", target: "1" }, { source: "4", target: "2" }]}
 
 
+
   let expand = (node, event) => {
+    let url = serverHost + ``;
+    getData()
     console.log(node.id);
   }
   return useMemo(() => {

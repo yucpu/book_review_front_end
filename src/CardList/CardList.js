@@ -1,16 +1,16 @@
 import React, { createElement, useMemo } from 'react';
-import { List, Tag, Rate, Image, Typography } from 'antd';
+import { List, Tag, Rate, Image, Typography, Button } from 'antd';
 import { useData, getData, serverHost, postData } from '../data';
 import CustomeP from "../util/customeP";
 import "../CardList/CardList.css";
 import { useNavigate, useSearchParams } from 'react-router-dom';
-
 const { Title, Paragraph} = Typography
 
 function CardList() {
   const context = useData()
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
+  const defaultGraph = {nodes:[{id:"1"},{id:"2"}],links:[{source:"1",target:"2"}]}
 
   function toArray(lists) {
     let keys = Object.getOwnPropertyNames(lists)
@@ -20,6 +20,21 @@ function CardList() {
     }
     return res;
   }
+
+  let openGraph=(item,layer)=>{
+    context.setGraph(defaultGraph)
+    let url = serverHost + `Graph?bookid=${item.book_id}&neighbor=${layer}`;
+    getData(url,console.log)
+    .then((res)=>{
+      if(res==404){
+        context.setGraph(defaultGraph);
+      }else{
+        context.setGraph(res);
+      }
+    })
+    .catch(err=>context.setGraph(defaultGraph));
+  }
+
 
   let randomTag = (item) => {
     let colors = ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"];
@@ -73,6 +88,7 @@ function CardList() {
           <div>link: <a href={item.url}>{item.url}</a></div>
           {randomTag(item)}
           <div key={index}><CustomeP description={item.description}/></div>
+          <Button onClick={(item)=>openGraph(item,3)}>Force Graph</Button>
         </div>
       </div>
     </div>
@@ -114,7 +130,7 @@ function CardList() {
         </List.Item>
       )}
     />
-  }, [context.loading, context.result])
+  }, [context.loading, context.result, context.display])
 }
 
 export default CardList
