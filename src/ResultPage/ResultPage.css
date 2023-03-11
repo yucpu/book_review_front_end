@@ -43,24 +43,13 @@
     position: absolute;
     top: 16px;
     right: 64px;
-    -webkit-transition:width 0.7s;
-    transition: width 0.7s;
-    
+    -webkit-transition:width 0.2s;
+    transition: width 0.2s;
     width: 1px;
+ 
 }
 
 .app_user:hover{
     width: 100px;
 }
 
-
-
-
-/* #overview{
-   
-    width: 40%;
-    background-color: white;
-    border-radius: 2mm;
-    height: 100%;
-
-} */
