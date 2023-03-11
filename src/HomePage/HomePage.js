@@ -12,9 +12,7 @@ import { useData } from '../data';
 
 export default function HomePage(props) {
   const [show, setShow] = useState(true);
-  const navigate = useNavigate();
-  const context = useData();
-  
+
   return (
     <QueueAnim
       className='full_page'
