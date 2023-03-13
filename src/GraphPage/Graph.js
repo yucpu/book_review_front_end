@@ -1,7 +1,6 @@
 import {React,useMemo} from 'react';
 import { ForceGraph2D } from 'react-force-graph';
-import SpriteText from 'three-spritetext';
-import { getData, serverHost, useData } from '../data';
+import { getGraph, serverHost, useData } from '../data';
 import "../GraphPage/Graph.css"
 
 
@@ -12,16 +11,13 @@ function Graph() {
 
 
   let expand = (node, event) => {
-    let url = serverHost + ``;
-    getData()
+    getGraph()
     console.log(node.id);
   }
   return useMemo(() => {
     return (
       <div className='Graph'>
         <ForceGraph2D graphData={context.graph}
-          // nodeThreeObject={node => { const sprite = new SpriteText(node.id); sprite.color = "red"; return sprite }}
-          // nodeThreeObjectExtend={false}
           nodeCanvasObject={(node, ctx, globalScale) => {
             const label = node.id;
             const fontSize = 12 / globalScale;

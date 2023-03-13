@@ -1,7 +1,7 @@
 import React, { useEffect} from 'react'
 import { Space, Select, AutoComplete, Button, } from 'antd'
 import { SearchOutlined } from '@ant-design/icons';
-import { serverHost, useData, getData, getSuggestion } from '../data';
+import {useData, getData, getSuggestion, getChatGPT } from '../data';
 import { useNavigate } from 'react-router-dom';
 const { Option } = Select
 
@@ -48,16 +48,18 @@ function SearchBar(props) {
 
 
   const handleSearchByButton = (value, event) => {
-    // console.log(identity)
-    // console.log(`Query type ${method} : ${query}`);
-    let url = serverHost + `search?uid=${user}&query_type=${method}&query=${query}&result_range_from=${0}&result_range_to=${10}`;
+    let parameter = {uid:user, method:method,query:query,rangeFrom:0,rangeTo:9,score:0};
     if (identity == "HomePage") {
       navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
       console.log("from home")
     } else {
       console.log("from result")
       navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
-      getData(url, context.setLoading).then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); }).catch(err => { context.setLoading(false); setResult([]) });
+      getData(parameter, context.setLoading).
+      then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); })
+      .catch(err => { context.setLoading(false); setResult([]) });
+      getChatGPT(query, context.setChatLoading).then((res)=>context.setGptSuggest(res.suggest));
+      context.setPage(1);
     }
   }
   const queryExpansion = (value) => {
@@ -77,7 +79,11 @@ function SearchBar(props) {
         <Select defaultValue={method} style={{ width: '30%' }} onSelect={selectMethod}>
           <Option value="boolean">Boolean Seach</Option>
           <Option value="proximity">Proximity Seach</Option>
-          <Option value="phrase">Free Search</Option>
+          <Option value="colBERT">colBERT</Option>
+          <Option value="tfidf">TFIDF</Option>
+          <Option value="bm25">BM25</Option>
+
+
         </Select>
         <AutoComplete
           style={{ width: '60%' }}

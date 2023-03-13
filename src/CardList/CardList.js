@@ -1,13 +1,13 @@
 import React, { createElement, useMemo } from 'react';
 import { List, Tag, Rate, Image, Typography, Button } from 'antd';
-import { useData, getData, serverHost, postData } from '../data';
+import { useData, getData, serverHost, postData, getGraph } from '../data';
 import CustomeP from "../util/customeP";
 import "../CardList/CardList.css";
 import { useNavigate, useSearchParams } from 'react-router-dom';
-const { Title, Paragraph} = Typography
+const { Title} = Typography
 
 function CardList() {
-  const context = useData()
+  const context = useData();
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const defaultGraph = {nodes:[{id:"1"},{id:"2"}],links:[{source:"1",target:"2"}]}
@@ -22,14 +22,15 @@ function CardList() {
   }
 
   let openGraph=(item,layer)=>{
-    context.setGraph(defaultGraph)
-    let url = serverHost + `Graph?bookid=${item.book_id}&neighbor=${layer}`;
-    getData(url,console.log)
+    // context.setGraph(defaultGraph)
+    let graphParams = {bookid:item.book_id,neighbor:layer};
+    getGraph(graphParams,console.log)
     .then((res)=>{
       if(res==404){
         context.setGraph(defaultGraph);
       }else{
         context.setGraph(res);
+        console.log(res);
       }
     })
     .catch(err=>context.setGraph(defaultGraph));
@@ -94,14 +95,20 @@ function CardList() {
     </div>
   }
   let getPageInfo = (page, pageSize) => {
-    let result_from = (page * pageSize) - pageSize;
-    let result_to = (page * pageSize) - 1;
-    let url = serverHost + `/search?uid=${params.get("uid")}&query_type=${params.get("query_type")}&query=${params.get("query")}&result_range_from=${result_from}&result_range_to=${result_to}&score=${0}/`;
-    navigate(`/search?uid=${params.get("uid")}&query_type=${params.get("query_type")}&query=${params.get("query")}&result_range_from=${result_from}&result_range_to=${result_to}&score=${0}/`);
-    getData(url, context.setLoading)
+    let rangeFrom = (page * pageSize) - pageSize;
+    let rangeTo = (page * pageSize) - 1;
+    let uid = params.get("uid");
+    let method = params.get("query_type");
+    let query = params.get("query");
+    let score = params.get("score");
+    let parameter = {uid:uid, method:method,query:query,rangeFrom:rangeFrom,rangeTo:rangeTo,score:score};
+    navigate(`/search?uid=${uid}&query_type=${method}&query=${query}&result_range_from=${rangeFrom}&result_range_to=${rangeTo}&score=${score}`);
+    getData(parameter, context.setLoading)
     .then((books) => context.setResult(toArray(books.result_list)))
     .catch(err => { console.log(err) })
     .then(() => context.setLoading(false));
+
+    context.setPage(page);
   }
 
   const pagination = {
@@ -111,8 +118,11 @@ function CardList() {
     size: 'default',
     total: context.num_res,
     onChange: (page, pageSize) => { getPageInfo(page, pageSize) },
-    showSizeChanger: false
+    showSizeChanger: false,
+    current:context.page
+    
   }
+
   return useMemo(() => {
     return <List
       id='CardList'
@@ -130,7 +140,7 @@ function CardList() {
         </List.Item>
       )}
     />
-  }, [context.loading, context.result, context.display])
+  }, [context.loading, context.result, context.page])
 }
 
 export default CardList
