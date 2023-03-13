@@ -1,6 +1,8 @@
-import {React,useMemo} from 'react';
-import { ForceGraph2D } from 'react-force-graph';
-import { getGraph, serverHost, useData } from '../data';
+import { React, useMemo } from 'react';
+import { ForceGraph3D } from 'react-force-graph';
+import threeSpritetext from 'three-spritetext';
+import { getGraph, useData } from '../data';
+import { Modal, Spin } from 'antd';
 import "../GraphPage/Graph.css"
 
 
@@ -10,40 +12,42 @@ function Graph() {
 
 
 
-  let expand = (node, event) => {
-    getGraph()
-    console.log(node.id);
-  }
+  // let expand = (node, event) => {
+  //   getGraph()
+  //   console.log(node.id);
+  // }
   return useMemo(() => {
     return (
-      <div className='Graph'>
-        <ForceGraph2D graphData={context.graph}
-          nodeCanvasObject={(node, ctx, globalScale) => {
-            const label = node.id;
-            const fontSize = 12 / globalScale;
-            ctx.font = `${fontSize}px Sans-Serif`;
-            const textWidth = ctx.measureText(label).width;
-            const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-            ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-            ctx.fillText(node.id, node.x, node.y);
-            ctx.textAlign = "center";
-            ctx.textBaseline = 'middle';
-            // node.__bckgDimensions = bckgDimensions;
-          }}
-          onNodeClick={(node, event) => { expand(node, event) }}
-          width={500}
-          height={600}
-          backgroundColor={"rgb(255 255 255)"}
-          linkColor={"rgb(31 120 50)"}
-          linkOpacity={0.9}
-          graph2ScreenCoords={(0, 0)}
-          enablePanInteraction={false}
-        />
-      </div>
+      <Modal id='BookGraph' open={context.graphShow}
+        onCancel={() => context.setGraphShow(false)}
+        footer={null}
+        width={"50%"}
+        bodyStyle={{ height: "500px" }}
+        title="Book Relation Graph"
+      >
+
+        <div className='Graph'>
+          { context.graphLoading ? 
+            <Spin />:
+            <ForceGraph3D
+              graphData={context.graph}
+              nodeThreeObject={node => {
+                const sprite = new threeSpritetext(node.id)
+                sprite.color = node.color;
+                sprite.textHeight = 8;
+                return sprite;
+              }}
+              width={700}
+              height={500}
+              backgroundColor={"rgb(255 255 255)"}
+              linkColor={() => 225}
+              linkWidth={2}
+            />
+          }
+        </div>
+      </Modal>
     )
-  }, [context.graph])
+  }, [context.graph, context.graphShow, context.graphLoading])
 
 }
 

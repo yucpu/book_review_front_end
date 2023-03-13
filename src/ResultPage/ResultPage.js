@@ -1,27 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Layout, List, Slider, Typography} from 'antd';
+import { Layout, Slider} from 'antd';
 import QueueAnim from 'rc-queue-anim';
 import '../ResultPage/ResultPage.css';
 import SearchBar from '../SearchBar/SearchBar';
 import CardList from '../CardList/CardList';
 import { FrownOutlined, SmileOutlined } from '@ant-design/icons';
-import { serverHost, useData, getData, getChatGPT} from '../data';
+import { useData, getData, getChatGPT} from '../data';
 import UserLogin from '../util/userLogin';
 import Graph from '../GraphPage/Graph';
 import Comments from '../BookDetail/Comments';
+import GptPage from '../GptPage/GptPage';
 
-
-const {Text, Link} = Typography;
 const { Header, Content } = Layout
-function ResultPage(props) {
+function ResultPage() {
   const context = useData();
   const navigate = useNavigate();
   const [show, setShow] = useState(true);
   const [params, setParams] = useSearchParams();
   const mid = 2;
-
-  
 
   function toArray(lists) {
     let keys = Object.getOwnPropertyNames(lists)
@@ -32,7 +29,6 @@ function ResultPage(props) {
     return res;
   }
   
-
   useEffect(() => {
     let uid = params.get("uid");
     let method = params.get("query_type");
@@ -46,7 +42,7 @@ function ResultPage(props) {
     }else{
       let parameter = {uid:uid, method:method,query:query,rangeFrom:rangeFrom,rangeTo:rangeTo,score:score};
       getData(parameter, context.setLoading)
-      .then((books) => { context.setResult(toArray(books.result_list));context.setNum_res(books.result_num)})
+      .then((books) => { context.setResult(toArray(books.result_list));context.setNum_res(books.result_num);console.log(books)})
       .catch(err => { context.setLoading(false); context.setResult([]); })
       console.log("correct");
       getChatGPT(query, context.setChatLoading).then((res)=>{context.setGptSuggest(res.suggest); console.log([...res.suggest])});
@@ -86,7 +82,7 @@ function ResultPage(props) {
             key="layout"
           >
             <Header className='app_header' style={{backgroundColor:"#ffffff", height:'15%'}}>
-              <div style={{ height: "100%", width: "50%", marginLeft:"calc(10% + 50px)"}}>
+              <div style={{ height: "100%", width: "45%", marginLeft:"calc(10%)"}}>
                 <SearchBar show={show} setShow={setShow} identity="ResultPage" style={{width:"50%"}} />
                 <div style={{ height: "20%", width: "100%", display: "flex", alignItems: 'center'}}>
                   <FrownOutlined className={context.score <= mid && 'icon_selected'} />
@@ -100,29 +96,11 @@ function ResultPage(props) {
               <UserLogin/>
             </Header>
             <Content style={{display:'flex'}}>
-              <div style={{width:'16%', paddingInlineStart:'10px'}}>
-              <List
-                    header={<Text strong>ChatGPT Book Suggestion</Text>}
-                    itemLayout="vertical"
-                    split={true}
-                    dataSource={context.gptSuggest}
-                    loading= {context.chatLoading}
-                    renderItem={(item, index) => (
-                        <List.Item>
-                            <Text
-                            ellipsis={{tooltip:item}}
-                            onClick={()=> context.setQuery(item)}
-                            style={{color:'#1890ff'}}
-                            >
-                              {index + ". "+item}
-                            </Text>
-                        </List.Item>
-                    )}
-                />
-              </div>
+              
               <div id="list_area">
                 <CardList />
               </div>
+              <GptPage/>
               <Graph/>
               <Comments/>
             </Content>
@@ -130,7 +108,7 @@ function ResultPage(props) {
         ] : null}
       </QueueAnim>
     )
-  }, [context.loading, context.user, context.score, context.chatLoading])
+  }, [context.loading, context.user, context.score, context.chatLoading,context.gptSuggest])
 
 }
 

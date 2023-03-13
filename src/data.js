@@ -22,13 +22,16 @@ export const DataProvider = ({children}) => {
     const [result,setResult] = useState([]);
     const [num_res, setNum_res] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [graphLoading, setGraphLoading] = useState(false);
     const [graph,setGraph] = useState({ nodes: [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }], links: [{ source: "1", target: "2" }, { source: "2", target: "3" }, { source: "4", target: "1" }, { source: "4", target: "2" }]});
+    const [graphShow, setGraphShow] = useState(false);
     const [commentShow, setCommentShow] = useState(false);
     const [comments, setComments] = useState([{user:"TTDS",score:2.5, comment:"Harry Potter is a beloved fantasy book series written by J.K. Rowling that has captured the hearts of millions of readers around the world. The series follows the story of a young wizard named Harry Potter who discovers his true identity and his role in the wizarding world."}]);
     const [page, setPage] = useState(1);
     const [score, setScore] = useState(0);
     const [chatLoading, setChatLoading] = useState(false);
     const [gptSuggest, setGptSuggest] = useState([]);
+    
     const login = (user) => {
         setUser(user)
     }
@@ -45,10 +48,11 @@ export const DataProvider = ({children}) => {
         selectMethod, options, setOptions, query, 
         setQuery, result,setResult,
         num_res, setNum_res, loading,setLoading,
-        commentShow, setCommentShow, comments, setComments,
+        graphLoading,setGraphLoading,
+        graphShow,setGraphShow, comments, setComments,
         graph,setGraph,page, setPage,
         score, setScore, chatLoading, setChatLoading,
-        gptSuggest, setGptSuggest}}>
+        commentShow, setCommentShow, gptSuggest, setGptSuggest}}>
             {children}
         </Provider>
     )
@@ -59,9 +63,7 @@ export const useData = ()=>{
 
 
 export async function getData(parameter={}, load){
-    let url = serverHost + `search?uid=${parameter.uid}&query_type=${parameter.method}
-    &query=${parameter.query}&result_range_from=${parameter.rangeFrom}&result_range_to=${parameter.rangeTo}
-    &score=${parameter.score}`;
+    let url = serverHost + `search?uid=${parameter.uid}&query_type=${parameter.method}&query=${parameter.query}&result_range_from=${parameter.rangeFrom}&result_range_to=${parameter.rangeTo}&score=${parameter.score}`;
     load(true)
     let request = new Request(url, {
         method: 'GET',
@@ -98,7 +100,8 @@ export async function getChatGPT(query, load){
     return response.json();
 }
 
-export async function getGraph(graphParams={bookid:"8012931", neighbor:3}){
+export async function getGraph(graphParams={bookid:"8012931", neighbor:3}, load){
+    load(true);
     let url = serverHost + `Graph?bookid=${graphParams.bookid}&neighbor=${graphParams.neighbor}`;
     let request = new Request(url, {
         method: 'GET',
@@ -109,16 +112,16 @@ export async function getGraph(graphParams={bookid:"8012931", neighbor:3}){
     
     })
     const response = await fetch(request);
+    load(false);
     if(response.status == 404){
         return response.status;
     }
-    console.log(response)
+    console.log(response);
     return response.json();
 }
 
 
 export async function postData(url = '', data={}){
-
     let request = new Request(url, {
         method: 'POST',
         mode: 'no-cors',

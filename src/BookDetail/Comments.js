@@ -2,6 +2,8 @@ import { List, Modal, Avatar, Rate} from 'antd';
 import React, { useMemo } from 'react';
 import '../BookDetail/Comments.css';
 import { useData } from '../data';
+import Graph from '../GraphPage/Graph';
+
 import CustomeP from '../util/customeP';
 
 
@@ -26,6 +28,7 @@ function Comments() {
             bodyStyle={{height:"500px"}}
             title="Reader Comments"
             >
+                
                 <List
                     itemLayout="vertical"
                     pagination={pagination}
@@ -42,6 +45,7 @@ function Comments() {
                         </List.Item>
                     )}
                 />
+                {/* <Graph/> */}
             </Modal>
         )
     }, [context.book, context.commentShow, context.comments])

@@ -9,9 +9,9 @@
 }
 
 #list_area{
-    width: 50%;
+    width: 43%;
     height: 100%;
-    /* margin-left: calc(10% + 40px); */
+    margin-left: calc(10% + 40px);
     background-color: #fafafa;
     border-radius: 2mm;
     overflow-y: scroll; 

@@ -50,14 +50,15 @@ function SearchBar(props) {
   const handleSearchByButton = (value, event) => {
     let parameter = {uid:user, method:method,query:query,rangeFrom:0,rangeTo:9,score:0};
     if (identity == "HomePage") {
-      navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
+      navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}`);
       console.log("from home")
     } else {
       console.log("from result")
-      navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}/`);
+      navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}`);
       getData(parameter, context.setLoading).
       then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); })
       .catch(err => { context.setLoading(false); setResult([]) });
+      context.setGraph({nodes:[],links:[]})
       getChatGPT(query, context.setChatLoading).then((res)=>context.setGptSuggest(res.suggest));
       context.setPage(1);
     }
