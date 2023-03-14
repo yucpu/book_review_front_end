@@ -28,7 +28,6 @@ function Comments() {
             bodyStyle={{height:"500px"}}
             title="Reader Comments"
             >
-                
                 <List
                     itemLayout="vertical"
                     pagination={pagination}
@@ -38,10 +37,10 @@ function Comments() {
                         <List.Item>
                             <List.Item.Meta
                                 avatar={<Avatar src={require("../resources/gamer.png")} />}
-                                title={item.user}
+                                title={item.user_id}
                                 description={<Rate defaultValue={item.score} allowHalf={true} disabled/>}
                             />
-                            {<CustomeP description={item.comment}/>}
+                            {<CustomeP description={item.review_text}/>}
                         </List.Item>
                     )}
                 />
