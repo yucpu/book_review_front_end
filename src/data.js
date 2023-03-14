@@ -3,7 +3,8 @@ import { useSearchParams } from "react-router-dom";
 
 export const DataContext = createContext(null);
 const {Provider} = DataContext;
-export const serverHost = 'https://5a99fca3-8b52-4c33-b65c-6baf5893fce1.mock.pstmn.io/'
+// export const serverHost = 'http://localhost:8080/'
+export const serverHost = "https://5a99fca3-8b52-4c33-b65c-6baf5893fce1.mock.pstmn.io/"
 
 
 const autoSuggestionCig = {
@@ -21,6 +22,8 @@ export const DataProvider = ({children}) => {
     const [query, setQuery] = useState("");
     const [result,setResult] = useState([]);
     const [num_res, setNum_res] = useState(0);
+    const [responseTime, setResponseTime] = useState(0);
+    const [errorMsg, setErrorMsg] = useState("No error");
     const [loading, setLoading] = useState(false);
     const [graphLoading, setGraphLoading] = useState(false);
     const [graph,setGraph] = useState({ nodes: [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }], links: [{ source: "1", target: "2" }, { source: "2", target: "3" }, { source: "4", target: "1" }, { source: "4", target: "2" }]});
@@ -47,7 +50,8 @@ export const DataProvider = ({children}) => {
         <Provider value={{ user,setUser,login, loginOut, method, 
         selectMethod, options, setOptions, query, 
         setQuery, result,setResult,
-        num_res, setNum_res, loading,setLoading,
+        num_res, setNum_res, responseTime,setResponseTime,
+        errorMsg,setErrorMsg, loading,setLoading,
         graphLoading,setGraphLoading,
         graphShow,setGraphShow, comments, setComments,
         graph,setGraph,page, setPage,
@@ -116,7 +120,6 @@ export async function getGraph(graphParams={bookid:"8012931", neighbor:3}, load)
     if(response.status == 404){
         return response.status;
     }
-    console.log(response);
     return response.json();
 }
 
