@@ -42,15 +42,13 @@ function ResultPage() {
     }else{
       let parameter = {uid:uid, method:method,query:query,rangeFrom:rangeFrom,rangeTo:rangeTo,score:score};
       getData(parameter, context.setLoading)
-      .then((books) => { context.setResult(toArray(books.result_list));context.setNum_res(books.result_num);console.log(books)})
+      .then((books) => { context.setResult(toArray(books.result_list));context.setNum_res(books.result_num);context.setResponseTime(books.time);})
       .catch(err => { context.setLoading(false); context.setResult([]); })
       console.log("correct");
-      getChatGPT(query, context.setChatLoading).then((res)=>{context.setGptSuggest(res.suggest); console.log([...res.suggest])});
+      getChatGPT(query, context.setChatLoading).then((res)=>{context.setGptSuggest(res.suggest);}).catch(err=>context.setChatLoading(false));
+      context.setPage((rangeFrom / 10) + 1);
     }
   }, [])
-
-  
-
 
   let showBookByScore = (score) =>{
     let uid = params.get("uid");
@@ -61,9 +59,11 @@ function ResultPage() {
 
     let parameter = {uid:uid, method:method,query:query,rangeFrom:rangeFrom,rangeTo:rangeTo,score:score};
     getData(parameter, context.setLoading)
-    .then((books) => { context.setResult(toArray(books.result_list));context.setNum_res(books.result_num)})
+    .then((books) => { context.setResult(toArray(books.result_list));context.setNum_res(books.result_num); context.setResponseTime(books.time);})
     .catch(err => { context.setLoading(false); context.setResult([]); })
     navigate(`/search?uid=${uid}&query_type=${method}&query=${query}&result_range_from=${rangeFrom}&result_range_to=${rangeTo}&score=${score}`);
+    context.setPage(1);
+
   }
 
   
@@ -81,7 +81,7 @@ function ResultPage() {
             className="full_page"
             key="layout"
           >
-            <Header className='app_header' style={{backgroundColor:"#ffffff", height:'15%'}}>
+            <Header className='app_header' style={{backgroundColor:"#ffffff", height:'120px'}}>
               <div style={{ height: "100%", width: "45%", marginLeft:"calc(10%)"}}>
                 <SearchBar show={show} setShow={setShow} identity="ResultPage" style={{width:"50%"}} />
                 <div style={{ height: "20%", width: "100%", display: "flex", alignItems: 'center'}}>
@@ -108,7 +108,7 @@ function ResultPage() {
         ] : null}
       </QueueAnim>
     )
-  }, [context.loading, context.user, context.score, context.chatLoading,context.gptSuggest])
+  }, [context.loading, context.user, context.score, context.chatLoading,context.gptSuggest, context.responseTime])
 
 }
 

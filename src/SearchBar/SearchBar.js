@@ -1,10 +1,11 @@
 import React, { useEffect} from 'react'
-import { Space, Select, AutoComplete, Button, } from 'antd'
-import { SearchOutlined } from '@ant-design/icons';
+import { Space, Select, AutoComplete, Button, Tooltip, } from 'antd'
+import { SearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import {useData, getData, getSuggestion, getChatGPT } from '../data';
 import { useNavigate } from 'react-router-dom';
-const { Option } = Select
 
+
+const { Option } = Select
 function SearchBar(props) {
   const context = useData();
   const navigate = useNavigate();
@@ -31,7 +32,6 @@ function SearchBar(props) {
   const handleKey = (e) => {
     if (e.code == "Enter") {
       console.log("search By Enter")
-      console.log("Query type: " + method + " ->" + query);
     }
   }
 
@@ -46,20 +46,28 @@ function SearchBar(props) {
        
   }
 
+  function tips(type){
+    switch(type){
+      case 'boolean':
+        return 'Term A (AND/OR) Term B ';
+      case 'proximity':
+        return 'Balala';
+      default:
+        return "Free Search. eg. Harry Potter"
+    }
+  }
 
   const handleSearchByButton = (value, event) => {
     let parameter = {uid:user, method:method,query:query,rangeFrom:0,rangeTo:9,score:0};
     if (identity == "HomePage") {
       navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}`);
-      console.log("from home")
     } else {
-      console.log("from result")
       navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}`);
       getData(parameter, context.setLoading).
-      then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); })
+      then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setResponseTime(books.time);})
       .catch(err => { context.setLoading(false); setResult([]) });
       context.setGraph({nodes:[],links:[]})
-      getChatGPT(query, context.setChatLoading).then((res)=>context.setGptSuggest(res.suggest));
+      getChatGPT(query, context.setChatLoading).then((res)=>context.setGptSuggest(res.suggest)).catch(err=>context.setChatLoading(false));
       context.setPage(1);
     }
   }
@@ -78,13 +86,11 @@ function SearchBar(props) {
     <div id='SearchBar' >
       <Space.Compact style={{ width: "100%" }}>
         <Select defaultValue={method} style={{ width: '30%' }} onSelect={selectMethod}>
-          <Option value="boolean">Boolean Seach</Option>
-          <Option value="proximity">Proximity Seach</Option>
-          <Option value="colBERT">colBERT</Option>
-          <Option value="tfidf">TFIDF</Option>
-          <Option value="bm25">BM25</Option>
-
-
+            <Option title="'[NOT] [Token/Phrase]' [AND/OR] ..." value="boolean">Boolean Seach</Option>
+            <Option title="[#number] [(token1, token2)]" value="proximity">Proximity Seach</Option>
+            <Option title="[Any Words]" value="colBERT">colBERT</Option>
+            <Option title="[Any Words]" value="tfidf">TFIDF</Option>
+            <Option title="[Any Words]" value="bm25">BM25</Option>
         </Select>
         <AutoComplete
           style={{ width: '60%' }}

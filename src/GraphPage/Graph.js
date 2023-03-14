@@ -10,12 +10,6 @@ function Graph() {
   const context = useData()
   // let data = { nodes: [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }], links: [{ source: "1", target: "2" }, { source: "2", target: "3" }, { source: "4", target: "1" }, { source: "4", target: "2" }]}
 
-
-
-  // let expand = (node, event) => {
-  //   getGraph()
-  //   console.log(node.id);
-  // }
   return useMemo(() => {
     return (
       <Modal id='BookGraph' open={context.graphShow}
