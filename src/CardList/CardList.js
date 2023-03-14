@@ -1,5 +1,5 @@
 import React, { createElement, useMemo } from 'react';
-import { List, Tag, Rate, Image, Typography, Button } from 'antd';
+import { List, Tag, Rate, Image, Typography, Button, Tooltip } from 'antd';
 import { useData, getData, serverHost, postData, getGraph } from '../data';
 import CustomeP from "../util/customeP";
 import "../CardList/CardList.css";
@@ -39,14 +39,13 @@ function CardList() {
   let openGraph = (item, layer) => {
     
     let graphParams = { bookid: item.book_id, neighbor: layer };
-    console.log(graphParams);
+   
     getGraph(graphParams, context.setGraphLoading)
       .then((res) => {
         if (res == 404) {
           context.setGraph(defaultGraph);
         } else {
           context.setGraph(res);
-          console.log(res);
         }
       })
       .catch(err => context.setGraph(defaultGraph));
@@ -54,7 +53,7 @@ function CardList() {
   }
 
   let openComment = (item) =>{
-    // context.setComments(item.comments);
+    context.setComments(item.comments);
     context.setCommentShow(true);
   }
 
@@ -82,7 +81,6 @@ function CardList() {
     if (context.user) {
       let url = serverHost + `sendscore`;
       let rating = { uid: context.user, bookid: book_id, score: score };
-      console.log(score);
       postData(url, rating);
     }
   }
@@ -106,8 +104,12 @@ function CardList() {
           <div>link: <a href={item.url}>{item.url}</a></div>
           {randomTag(item)}
           <div key={index}><CustomeP description={item.description} /></div>
-          <Button icon={<Icon component={GraphIcon} />} onClick={() => openGraph(item)} />
-          <Button icon={<Icon component={CommentIcon}/>} style={{marginLeft:"5px"}} onClick={()=>openComment(item)}/>
+          <Tooltip title="Open Graph" color={"blue"}>
+            <Button icon={<Icon component={GraphIcon} />} onClick={() => openGraph(item)} /> 
+          </Tooltip>
+          <Tooltip title="Open Comment" color={"blue"}>
+            <Button icon={<Icon component={CommentIcon}/>} style={{marginLeft:"5px"}} onClick={()=>openComment(item)}/>
+          </Tooltip>
         </div>
       </div>
     </div>
@@ -122,7 +124,7 @@ function CardList() {
     let parameter = { uid: uid, method: method, query: query, rangeFrom: rangeFrom, rangeTo: rangeTo, score: score };
     navigate(`/search?uid=${uid}&query_type=${method}&query=${query}&result_range_from=${rangeFrom}&result_range_to=${rangeTo}&score=${score}`);
     getData(parameter, context.setLoading)
-      .then((books) => context.setResult(toArray(books.result_list)))
+      .then((books) => {context.setResult(toArray(books.result_list)); context.setResponseTime(books.time);})
       .catch(err => { console.log(err) })
       .then(() => context.setLoading(false));
     context.setPage(page);
@@ -148,6 +150,7 @@ function CardList() {
       split={true}
       loading={context.loading}
       size='small'
+      header={`Found Result in ${context.responseTime}s`}
       dataSource={context.result}
       renderItem={(item, index) => (
         <List.Item key={index}>
@@ -157,7 +160,7 @@ function CardList() {
         </List.Item>
       )}
     />
-  }, [context.loading, context.result, context.page])
+  }, [context.loading, context.result, context.page, context.responseTime])
 }
 
 export default CardList
