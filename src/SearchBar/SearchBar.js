@@ -46,20 +46,11 @@ function SearchBar(props) {
        
   }
 
-  function tips(type){
-    switch(type){
-      case 'boolean':
-        return 'Term A (AND/OR) Term B ';
-      case 'proximity':
-        return 'Balala';
-      default:
-        return "Free Search. eg. Harry Potter"
-    }
-  }
 
   const handleSearchByButton = (value, event) => {
     let parameter = {uid:user, method:method,query:query,rangeFrom:0,rangeTo:9,score:0};
     if (identity == "HomePage") {
+      // navigate to the result page
       navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}`);
     } else {
       navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}`);

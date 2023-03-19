@@ -17,7 +17,7 @@ function ResultPage() {
   const context = useData();
   const navigate = useNavigate();
   const [show, setShow] = useState(true);
-  const [params, setParams] = useSearchParams();
+  const [params,] = useSearchParams();
   const mid = 2;
 
   function toArray(lists) {
@@ -38,7 +38,7 @@ function ResultPage() {
     let score = params.get("score") % 6;
     if (rangeFrom % 10 != 0 || rangeTo % 10 != 9){
       context.setResult([]);
-      console.log("Wrong");
+      // console.log("Wrong");
     }else{
       let parameter = {uid:uid, method:method,query:query,rangeFrom:rangeFrom,rangeTo:rangeTo,score:score};
       getData(parameter, context.setLoading)
@@ -58,9 +58,11 @@ function ResultPage() {
     let rangeTo = params.get("result_range_to");
 
     let parameter = {uid:uid, method:method,query:query,rangeFrom:rangeFrom,rangeTo:rangeTo,score:score};
+    
     getData(parameter, context.setLoading)
     .then((books) => { context.setResult(toArray(books.result_list));context.setNum_res(books.result_num); context.setResponseTime(books.time);})
     .catch(err => { context.setLoading(false); context.setResult([]); })
+    
     navigate(`/search?uid=${uid}&query_type=${method}&query=${query}&result_range_from=${rangeFrom}&result_range_to=${rangeTo}&score=${score}`);
     context.setPage(1);
 

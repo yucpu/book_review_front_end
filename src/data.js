@@ -29,7 +29,7 @@ export const DataProvider = ({children}) => {
     const [graph,setGraph] = useState({ nodes: [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }], links: [{ source: "1", target: "2" }, { source: "2", target: "3" }, { source: "4", target: "1" }, { source: "4", target: "2" }]});
     const [graphShow, setGraphShow] = useState(false);
     const [commentShow, setCommentShow] = useState(false);
-    const [comments, setComments] = useState([{user:"TTDS",score:2.5, comment:"Harry Potter is a beloved fantasy book series written by J.K. Rowling that has captured the hearts of millions of readers around the world. The series follows the story of a young wizard named Harry Potter who discovers his true identity and his role in the wizarding world."}]);
+    const [comments, setComments] = useState([]);
     const [page, setPage] = useState(1);
     const [score, setScore] = useState(0);
     const [chatLoading, setChatLoading] = useState(false);

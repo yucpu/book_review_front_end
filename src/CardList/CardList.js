@@ -6,7 +6,7 @@ import "../CardList/CardList.css";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Icon from '@ant-design/icons';
 
-const { Title } = Typography;
+const { Title, Text} = Typography;
 
 const GraphIcon = () => (
   <svg fill="#000000" width="15px" height="15px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +25,7 @@ function CardList() {
   const context = useData();
   const navigate = useNavigate();
   const [params,] = useSearchParams();
-  const defaultGraph = { nodes: [{ id: "1" }, { id: "2" }], links: [{ source: 1, target: 2 }] }
+  const defaultGraph = { nodes: [{"id": "1234", "title": "a book"},],links: [{"source": "1234", "target": "4321"},],}
 
   function toArray(lists) {
     let keys = Object.getOwnPropertyNames(lists)
@@ -53,7 +53,7 @@ function CardList() {
   }
 
   let openComment = (item) =>{
-    context.setComments(item.comments);
+    context.setComments(item.comments ? item.comments: []);
     context.setCommentShow(true);
   }
 
@@ -150,7 +150,7 @@ function CardList() {
       split={true}
       loading={context.loading}
       size='small'
-      header={`Found Result in ${context.responseTime}s`}
+      header={<Text strong>Found Result in {context.responseTime ? context.responseTime: 0}s</Text>}
       dataSource={context.result}
       renderItem={(item, index) => (
         <List.Item key={index}>

@@ -26,7 +26,7 @@ function Graph() {
             <ForceGraph3D
               graphData={context.graph}
               nodeThreeObject={node => {
-                const sprite = new threeSpritetext(node.id)
+                const sprite = new threeSpritetext(node.title)
                 sprite.color = node.color;
                 sprite.textHeight = 8;
                 return sprite;
