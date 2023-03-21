@@ -3,8 +3,9 @@ import { useSearchParams } from "react-router-dom";
 
 export const DataContext = createContext(null);
 const {Provider} = DataContext;
-// export const serverHost = 'http://localhost:8080/'
-export const serverHost = "https://5a99fca3-8b52-4c33-b65c-6baf5893fce1.mock.pstmn.io/"
+export const serverHost = 'http://192.168.1.93:8080/'
+// export const serverHost = "https://5a99fca3-8b52-4c33-b65c-6baf5893fce1.mock.pstmn.io/"
+// export const serverHost = 'http://34.91.189.170:8080/'
 
 
 const autoSuggestionCig = {
@@ -17,7 +18,7 @@ const autoSuggestionCig = {
 
 export const DataProvider = ({children}) => {
     const [user, setUser] = useState(null);
-    const [method,setMethod] = useState("BM25");
+    const [method,setMethod] = useState("bm25");
     const [options, setOptions] = useState([]);
     const [query, setQuery] = useState("");
     const [result,setResult] = useState([]);
@@ -67,7 +68,7 @@ export const useData = ()=>{
 
 
 export async function getData(parameter={}, load){
-    let url = serverHost + `search?uid=${parameter.uid}&query_type=${parameter.method}&query=${parameter.query}&result_range_from=${parameter.rangeFrom}&result_range_to=${parameter.rangeTo}&score=${parameter.score}`;
+    let url = serverHost + `search?uid=${parameter.uid}&query_type=${parameter.method}&query=${encodeURIComponent(parameter.query)}&result_range_from=${parameter.rangeFrom}&result_range_to=${parameter.rangeTo}&score=${parameter.score}`;  
     load(true)
     let request = new Request(url, {
         method: 'GET',
@@ -88,9 +89,10 @@ export async function getData(parameter={}, load){
 export async function getChatGPT(query, load){
     load(true);
     let url = serverHost + `gpt?query=${query}`;
+    url = encodeURI(url);
     let request = new Request(url, {
         method: 'GET',
-        mode: 'cors',
+        mode: 'no-cors',
         cache: 'default',
         credentials: 'same-origin',
         headers : {'Content-Type': 'application/json; charset=utf-8'},
@@ -127,13 +129,14 @@ export async function getGraph(graphParams={bookid:"8012931", neighbor:3}, load)
 export async function postData(url = '', data={}){
     let request = new Request(url, {
         method: 'POST',
-        mode: 'no-cors',
+        mode: 'cors',
         cache: 'default',
         credentials: 'same-origin',
         headers : {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify(data)
     })
     const response = await fetch(request);
+    console.log(response.status)
     return response;
 }
 
