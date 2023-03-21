@@ -32,6 +32,7 @@ function SearchBar(props) {
   const handleKey = (e) => {
     if (e.code == "Enter") {
       console.log("search By Enter")
+      handleSearchByButton();
     }
   }
 

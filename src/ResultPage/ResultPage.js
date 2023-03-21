@@ -85,7 +85,7 @@ function ResultPage() {
                 <SearchBar show={show} setShow={setShow} identity="ResultPage" style={{width:"50%"}} />
                 <div style={{ height: "20%", width: "100%", display: "flex", alignItems: 'center'}}>
                   <FrownOutlined className={context.score <= mid && 'icon_selected'} />
-                  <Slider value={context.score} onChange={(value) => context.setScore(value)} style={{ width: "80%", marginLeft: "10px", marginRight: "10px" }} min={0} max={5}></Slider>
+                  <Slider reverse={false} value={context.score} onChange={(value) => context.setScore(value)} style={{ width: "80%", marginLeft: "10px", marginRight: "10px" }} min={0} max={5}></Slider>
                   <SmileOutlined className={context.score > mid && 'icon_selected'} style={{ marginRight: '10px' }} />
                   <a style={{ width: "48%", textAlign: 'end' }} onClick={()=>{showBookByScore(context.score)}}>
                     show books exceed the score

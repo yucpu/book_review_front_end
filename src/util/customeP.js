@@ -1,9 +1,16 @@
 import Paragraph from 'antd/es/typography/Paragraph';
+import { useEffect } from 'react';
 import {React, useState} from 'react';
+import { useData } from '../data';
 
 function CustomeP(props) {
+    const context = useData();
     const [visible, setVisible] = useState(false);
     const {description} = props;
+
+    useEffect(()=>{
+        setVisible(false);
+    },[context.result])
     
     return(
         <Paragraph ellipsis={!visible}>
