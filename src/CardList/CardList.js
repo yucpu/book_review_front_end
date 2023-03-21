@@ -36,9 +36,9 @@ function CardList() {
     return res;
   }
 
-  let openGraph = (item, layer) => {
+  let openGraph = (item) => {
     
-    let graphParams = { bookid: item.book_id, neighbor: layer };
+    let graphParams = { bookid: item.book_id, neighbor: 3};
    
     getGraph(graphParams, context.setGraphLoading)
       .then((res) => {
@@ -97,7 +97,7 @@ function CardList() {
         </div>
         <div id="item_information" style={{ width: "80%", marginLeft: '10px' }}>
           <Title id="book_title" level={4}>{item.title}</Title>
-          <Rate defaultValue={item.average_rating} onChange={(value) => sendScore(value, item.book_id)} allowHalf></Rate>
+          <Rate value={item.average_rating} onChange={(value) => sendScore(value, item.book_id)} allowHalf></Rate>
           <div>by: {item.author_list}</div>
           <div>country: {item.country_code}</div>
           <div>language: {item.language_code}</div>
@@ -150,7 +150,7 @@ function CardList() {
       split={true}
       loading={context.loading}
       size='small'
-      header={<Text strong>Found Result in {context.responseTime ? context.responseTime: 0}s</Text>}
+      header={<Text strong>Found {context.num_res} Results in {context.responseTime ? context.responseTime: 0}s</Text>}
       dataSource={context.result}
       renderItem={(item, index) => (
         <List.Item key={index}>
