@@ -25,7 +25,7 @@ function Comments() {
             onCancel={() => context.setCommentShow(false)}
             footer={null}
             width={"50%"}
-            bodyStyle={{height:"500px"}}
+            bodyStyle={{height:"500px", overflowY:"scroll"}}
             title="Reader Comments"
             >
                 <List
