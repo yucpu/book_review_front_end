@@ -77,7 +77,7 @@ function SearchBar(props) {
     <div id='SearchBar' >
       <Space.Compact style={{ width: "100%" }}>
         <Select defaultValue={method} style={{ width: '30%' }} onSelect={selectMethod}>
-            <Option title="'[NOT] [Token/Phrase]' [AND/OR] ..." value="boolean">Boolean Seach</Option>
+            <Option title="'[Token/Phrase]' [AND/OR] [NOT] [Token/Phrase]..." value="boolean">Boolean Seach</Option>
             <Option title="[#number] [(token1, token2)]" value="proximity">Proximity Seach</Option>
             <Option title="[Any Words]" value="colBERT">colBERT</Option>
             <Option title="[Any Words]" value="tfidf">TFIDF</Option>
