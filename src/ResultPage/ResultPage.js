@@ -56,16 +56,13 @@ function ResultPage() {
     let query = params.get("query");
     let rangeFrom = params.get("result_range_from");
     let rangeTo = params.get("result_range_to");
-
     let parameter = {uid:uid, method:method,query:query,rangeFrom:rangeFrom,rangeTo:rangeTo,score:score};
     
     getData(parameter, context.setLoading)
     .then((books) => { context.setResult(toArray(books.result_list));context.setNum_res(books.result_num); context.setResponseTime(books.time);})
     .catch(err => { context.setLoading(false); context.setResult([]); })
-    
     navigate(`/search?uid=${uid}&query_type=${method}&query=${query}&result_range_from=${rangeFrom}&result_range_to=${rangeTo}&score=${score}`);
     context.setPage(1);
-
   }
 
   
@@ -88,7 +85,7 @@ function ResultPage() {
                 <SearchBar show={show} setShow={setShow} identity="ResultPage" style={{width:"50%"}} />
                 <div style={{ height: "20%", width: "100%", display: "flex", alignItems: 'center'}}>
                   <FrownOutlined className={context.score <= mid && 'icon_selected'} />
-                  <Slider onChange={(value) => context.setScore(value)} style={{ width: "80%", marginLeft: "10px", marginRight: "10px" }} min={0} max={5}></Slider>
+                  <Slider value={context.score} onChange={(value) => context.setScore(value)} style={{ width: "80%", marginLeft: "10px", marginRight: "10px" }} min={0} max={5}></Slider>
                   <SmileOutlined className={context.score > mid && 'icon_selected'} style={{ marginRight: '10px' }} />
                   <a style={{ width: "48%", textAlign: 'end' }} onClick={()=>{showBookByScore(context.score)}}>
                     show books exceed the score

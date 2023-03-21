@@ -15,7 +15,7 @@ function SearchBar(props) {
 
   useEffect(()=>{
     if(query){
-      timeOutId = setTimeout(()=>{queryExpansion(query)},300);
+      timeOutId = setTimeout(()=>{queryExpansion(query)},700);
     }
   },[query])
 
@@ -58,11 +58,13 @@ function SearchBar(props) {
       then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setResponseTime(books.time);})
       .catch(err => { context.setLoading(false); setResult([]) });
       context.setGraph({nodes:[],links:[]})
-      getChatGPT(query, context.setChatLoading).then((res)=>context.setGptSuggest(res.suggest)).catch(err=>context.setChatLoading(false));
+      getChatGPT(query, context.setChatLoading).then((res)=>{context.setGptSuggest(res.suggest)}).catch(err=>context.setChatLoading(false));
       context.setPage(1);
+      context.setScore(0);
     }
   }
   const queryExpansion = (value) => {
+    // console.log(value);
     getSuggestion(value).then(res => {
       let temp = []
       for (let index = 0; index < res.length / 2; index++) {

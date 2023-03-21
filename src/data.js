@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 export const DataContext = createContext(null);
 const {Provider} = DataContext;
-export const serverHost = 'http://192.168.1.93:8080/'
+export const serverHost = 'http://localhost:8080/'
 // export const serverHost = "https://5a99fca3-8b52-4c33-b65c-6baf5893fce1.mock.pstmn.io/"
 // export const serverHost = 'http://34.91.189.170:8080/'
 
@@ -87,22 +87,24 @@ export async function getData(parameter={}, load){
 }
 
 export async function getChatGPT(query, load){
+    
     load(true);
-    let url = serverHost + `gpt?query=${query}`;
-    url = encodeURI(url);
+    let url = serverHost + `gpt?query=${encodeURIComponent(query)}`;
+
     let request = new Request(url, {
         method: 'GET',
-        mode: 'no-cors',
+        mode: 'cors',
         cache: 'default',
         credentials: 'same-origin',
         headers : {'Content-Type': 'application/json; charset=utf-8'},
     })
     const response = await fetch(request);
+    console.log(response)
     load(false)
     if(response.status == 404){
         return response.status;
     }
-    
+
     return response.json();
 }
 
@@ -136,13 +138,11 @@ export async function postData(url = '', data={}){
         body: JSON.stringify(data)
     })
     const response = await fetch(request);
-    console.log(response.status)
     return response;
 }
 
 export async function getSuggestion(query){
-    let url = 'https://auto-suggest-queries.p.rapidapi.com/suggestqueries?query='+query;
-
+    let url = 'https://auto-suggest-queries.p.rapidapi.com/suggestqueries?query='+encodeURIComponent(query);
     const response = await fetch(url, autoSuggestionCig);
     return response.json();
 }
