@@ -10,7 +10,7 @@ function CustomeP(props) {
 
     useEffect(()=>{
         setVisible(false);
-    },[context.result])
+    },[context.result, context.commentShow])
     
     return(
         <Paragraph ellipsis={!visible}>

@@ -28,14 +28,15 @@ function Graph() {
               nodeThreeObject={node => {
                 const sprite = new threeSpritetext(node.title)
                 sprite.color = node.color;
-                sprite.textHeight = 8;
+                sprite.textHeight = 3;
+                
                 return sprite;
               }}
               width={700}
               height={500}
               backgroundColor={"rgb(255 255 255)"}
-              linkColor={() => 225}
-              linkWidth={2}
+              linkColor={() => "#1677ff"}
+              linkWidth={1}
             />
           }
         </div>

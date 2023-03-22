@@ -49,19 +49,18 @@ function SearchBar(props) {
 
 
   const handleSearchByButton = (value, event) => {
-    let parameter = {uid:user, method:method,query:query,rangeFrom:0,rangeTo:9,score:0};
+    let parameter = {uid:user, method:method,query:query,rangeFrom:0,rangeTo:9,score:context.score};
     if (identity == "HomePage") {
       // navigate to the result page
       navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}`);
     } else {
-      navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${0}`);
+      navigate(`/search?uid=${context.user}&query_type=${context.method}&query=${context.query}&result_range_from=${0}&result_range_to=${9}&score=${context.score}`);
       getData(parameter, context.setLoading).
       then((books) => { setResult(toArray(books.result_list)); context.setNum_res(books.result_num); context.setResponseTime(books.time);})
       .catch(err => { context.setLoading(false); setResult([]) });
       context.setGraph({nodes:[],links:[]})
       getChatGPT(query, context.setChatLoading).then((res)=>{context.setGptSuggest(res.suggest)}).catch(err=>context.setChatLoading(false));
       context.setPage(1);
-      context.setScore(0);
     }
   }
   const queryExpansion = (value) => {

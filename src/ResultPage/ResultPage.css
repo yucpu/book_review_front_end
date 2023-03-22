@@ -22,8 +22,11 @@
   }
 
 
-.icon_selected{
-    color: #40a9ff;
+.icon_low_score{
+    color: #f5222d;
+}
+.icon_high_score{
+    color: #52c41a;
 }
 
 .app_header{
