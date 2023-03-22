@@ -3,8 +3,7 @@ import UserLogin from '../util/userLogin';
 import QueueAnim from 'rc-queue-anim';
 import "../HomePage/HomePage.css";
 import SearchBar from '../SearchBar/SearchBar';
-import { useData } from '../data';
-import { useSearchParams } from 'react-router-dom';
+
 
 
 
@@ -21,7 +20,7 @@ export default function HomePage(props) {
       {show ?
         <div key='a' className='full_page'>
           <div id='HomePage'>
-            <img src={require('../resources/logo.png')} style={{ maxWidth: '50%' }} />
+            <img src={require('../resources/newlogo.png')} style={{ maxWidth: '50%' }} />
             <SearchBar show={show} setShow={setShow} identity="HomePage" />
           </div>
           <UserLogin/>

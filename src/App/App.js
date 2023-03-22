@@ -8,12 +8,12 @@ import {LinkOutlined} from '@ant-design/icons';
 import { DataProvider } from '../data';
 
 function App() {
-  const [author,setAuthor] =  useState("Yuchen Pu")
+  const [author,setAuthor] =  useState("Lum3n")
  
   return (
     <DataProvider>
       <div id="App">
-        <a id="backgroundImageAttribution" href="https://github.com/yucpu">
+        <a id="backgroundImageAttribution" href={"https://www.pexels.com/photo/white-ruled-book-351961"}>
           <div>
               <LinkOutlined/> 
               <span style={{padding:'5px'}}>Photo by {author}</span>
