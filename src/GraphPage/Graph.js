@@ -37,6 +37,7 @@ function Graph() {
               backgroundColor={"rgb(255 255 255)"}
               linkColor={() => "#1677ff"}
               linkWidth={1}
+              onNodeClick={node=>{context.setQuery(node.title)}}
             />
           }
         </div>

@@ -85,6 +85,18 @@ function CardList() {
     }
   }
 
+  let displayAuthorList = (list)=>{
+    let authorStr = "";
+    for(let index = 0; index < list.length; index++){
+      if(index != 0){
+        authorStr+=", "+list[index];
+      }else{
+        authorStr += list[index];
+      }
+    }
+    return authorStr;
+  }
+
   let description = (item, index) => {
     return <div key={index}>
       <div style={{ display: 'flex', flexFlow: 'row' }}>
@@ -98,7 +110,7 @@ function CardList() {
         <div id="item_information" style={{ width: "80%", marginLeft: '10px' }}>
           <Title id="book_title" level={4}>{item.title}</Title>
           <Rate value={item.average_rating} onChange={(value) => sendScore(value, item.book_id)} allowHalf></Rate>
-          <div>by: {item.author_list}</div>
+          <div>by: {displayAuthorList(item.author_list)}</div>
           <div>country: {item.country_code}</div>
           <div>language: {item.language_code}</div>
           <div>link: <a href={item.url}>{item.url}</a></div>

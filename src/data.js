@@ -3,9 +3,9 @@ import { useSearchParams } from "react-router-dom";
 
 export const DataContext = createContext(null);
 const {Provider} = DataContext;
-export const serverHost = 'http://localhost:8080/'
+// export const serverHost = 'http://localhost:8080/'
 // export const serverHost = "https://5a99fca3-8b52-4c33-b65c-6baf5893fce1.mock.pstmn.io/"
-// export const serverHost = 'http://34.91.189.170:8080/'
+export const serverHost = 'http://34.91.189.170:8080/'
 
 
 const autoSuggestionCig = {
@@ -18,7 +18,7 @@ const autoSuggestionCig = {
 
 export const DataProvider = ({children}) => {
     const [user, setUser] = useState(null);
-    const [method,setMethod] = useState("bm25");
+    const [method,setMethod] = useState("colBERT");
     const [options, setOptions] = useState([]);
     const [query, setQuery] = useState("");
     const [result,setResult] = useState([]);
@@ -99,7 +99,6 @@ export async function getChatGPT(query, load){
         headers : {'Content-Type': 'application/json; charset=utf-8'},
     })
     const response = await fetch(request);
-    console.log(response)
     load(false)
     if(response.status == 404){
         return response.status;
